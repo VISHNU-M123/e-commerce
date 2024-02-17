@@ -1,0 +1,168 @@
+<%-include('../layouts/header.ejs')%>
+    <%-include('../layouts/navbar.ejs')%>
+
+
+        <main class="main">
+
+            <div class="login-page bg-image pt-8 pb-8 pt-md-12 pb-md-12 pt-lg-17 pb-lg-17"
+                style="background-image: url('user/assets/images/backgrounds/login-bg.jpg')">
+                <div class="container">
+                    <div class="form-box">
+                        <div class="form-tab">
+                            <ul class="nav nav-pills nav-fill" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active" id="register-tab-2" data-toggle="tab" href="#register-2"
+                                        role="tab" aria-controls="register-2" aria-selected="true">Login</a>
+                                </li>
+                            </ul>
+                            <br>
+                            <div class="tab-content">
+                                <div class="tab-pane fade show active" id="signin-2" role="tabpanel"
+                                    aria-labelledby="signin-tab-2">
+                                    <form action="/login" method="POST" id="login-form">
+                                        <div class="form-group">
+                                            <label for="singin-email-2">Email Address *</label>
+                                            <input type="text" class="form-control" id="email" name="email" required>
+                                        </div><!-- End .form-group -->
+                                        <br>
+                                        <div class="form-group">
+                                            <label for="singin-password-2">Password *</label>
+                                            <input type="password" class="form-control" id="password" name="password"
+                                                required>
+                                        </div><!-- End .form-group -->
+                                        <br>
+                                        <div class="form-footer">
+                                            <button type="submit" class="btn btn-outline-primary-2">
+                                                <span>LOG IN</span>
+                                                <i class="icon-long-arrow-right"></i>
+                                            </button>
+
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input"
+                                                    id="signin-remember-2">
+                                                <label class="custom-control-label" for="signin-remember-2">Remember
+                                                    Me</label>
+                                            </div><!-- End .custom-checkbox -->
+
+                                            <a href="#" class="forgot-link">Forgot Your Password?</a>
+                                        </div><!-- End .form-footer -->
+                                        <a href="register">dont have an account ?</a>
+                                    </form>
+
+                                </div><!-- .End .tab-pane -->
+
+                            </div><!-- End .tab-content -->
+                        </div><!-- End .form-tab -->
+                    </div><!-- End .form-box -->
+                </div><!-- End .container -->
+            </div><!-- End .login-page section-bg -->
+        </main><!-- End .main -->
+
+
+<!-- form validation -->
+<!-- 
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Get the form element
+        var loginForm = document.getElementById("login-form");
+
+        // Attach a submit event listener to the form
+        loginForm.addEventListener("submit", function (event) {
+            // Get the email and password input values
+            var email = document.getElementById("email").value;
+            var password = document.getElementById("password").value;
+
+            // Replace this with your actual validation logic
+            var isValid = validateCredentials(email, password);
+
+            // If validation fails, prevent the form submission and display an alert
+            if (!isValid) {
+                event.preventDefault(); // Prevent the form from submitting
+                alert("Email or password is incorrect");
+            }
+        });
+
+        // Replace this function with your actual validation logic
+        function validateCredentials(email, password) {
+
+
+            //    if (email.trim() === "" || password.trim() === "") {
+            //    alert("Email and password are required");
+            //    return false;
+            //    }
+
+
+
+            // Implement your logic to validate the user credentials
+            // For example, you can check if the email and password are not empty
+            // Return true if valid, false otherwise
+            return email !== "" && password !== "";
+        }
+    });
+</script> -->
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const loginForm = document.getElementById('login-form');
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+
+        loginForm.addEventListener('submit', function (event) {
+            // Remove previous error messages
+            removeErrorMessages();
+
+            if (!validateForm()) {
+                event.preventDefault(); // Prevent form submission if validation fails
+            }
+        });
+
+        function validateForm() {
+            let isValid = true;
+
+            const emailValue = emailInput.value.trim();
+            const passwordValue = passwordInput.value.trim();
+
+            // Validate email
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}$/;
+
+            if (!emailRegex.test(emailValue)) {
+                displaySweetAlert('email or password is incorrect.');
+                isValid = false;
+            }
+
+            // Validate password
+            if (passwordValue === '') {
+                displaySweetAlert('email or password is incorrect.');
+                isValid = false;
+            }
+
+            return isValid;
+        }
+
+        function displaySweetAlert(message) {
+            // Use SweetAlert to display an error message
+            Swal.fire({
+                icon: 'error',
+                title: 'Validation Error',
+                text: message,
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'OK'
+            });
+        }
+
+        function removeErrorMessages() {
+            // Remove previous error messages
+            const existingErrorMessages = document.querySelectorAll('.error-message');
+            existingErrorMessages.forEach(msg => msg.remove());
+        }
+    });
+</script>
+
+
+        <%-include('../layouts/footerNav.ejs')%>
+            <%-include('../layouts/footer.ejs')%>

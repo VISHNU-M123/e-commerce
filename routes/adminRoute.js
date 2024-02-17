@@ -1,0 +1,117 @@
+const express = require('express')
+const admin_route = express()
+
+const path = require('path')
+const session = require('express-session')
+const config = require('../config/config')
+admin_route.use(session({ secret: config.sessionSecret, resave: false, saveUninitialized: false }))
+
+const multer = require('multer')
+
+const nocache = require('nocache')
+admin_route.use(nocache())
+const bodyParser = require('body-parser')
+admin_route.use(bodyParser.json());
+admin_route.use(bodyParser.urlencoded({ extended: true }))
+
+admin_route.set('view engine', 'ejs')
+admin_route.set('views', './views/admin')
+
+
+//admin_route.set('view options', { debug: true });
+
+
+
+const adminAuth = require('../middleware/adminAuth')
+
+
+const adminController = require('../controllers/adminController')
+
+admin_route.get('/', adminAuth.isLogout, adminController.loadLogin)
+
+admin_route.post('/loginsubmit', adminAuth.isLogout, adminController.verifyLogin)
+
+admin_route.get('/home', adminAuth.isLogin, adminController.loadDashboard)
+
+admin_route.get('/logout', adminAuth.isLogin, adminController.logout)
+
+admin_route.get('/forget', adminController.forgetLoad)
+admin_route.post('/forget', adminController.forgetVerify)
+
+admin_route.get('/forget-password', adminController.forgetPasswordLoad)
+admin_route.post('/forget-password', adminController.resetPassword)
+
+admin_route.get('/allusers', adminAuth.isLogin, adminController.allUsers)
+
+admin_route.get('/allproducts', adminAuth.isLogin, adminController.allproducts)
+
+admin_route.get('/category', adminAuth.isLogin, adminController.category)
+
+
+// admin_route.get('*',function(req,res){
+//     res.redirect('/admin')
+// })
+
+
+
+//addproduct
+
+const productController = require('../controllers/productController')
+
+admin_route.get('/addproduct', adminAuth.isLogin, productController.addproducts);
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, path.join(__dirname, '../public/uploads'));
+  },
+
+  filename: function (req, file, cb) {
+    const currentDate = new Date();
+    const formattedDate = currentDate.toISOString().replace(/:/g, '-').replace(/\..+/, '');
+    const name = formattedDate + '_' + file.originalname;
+    cb(null, name);
+  },
+
+});
+const upload = multer({ storage: storage });
+//admin_route.post("/addproduct", upload.single('image'),productController.uploadProduct);
+admin_route.post("/addproduct", upload.array('images', 5), productController.uploadProduct)
+
+
+admin_route.post('/addproduct', adminAuth.isLogin, productController.uploadProduct);
+
+
+
+const categoryController = require('../controllers/categoryController');
+
+// category
+admin_route.get('/category', adminAuth.isLogin, categoryController.category)
+
+admin_route.get('/addcategory', adminAuth.isLogin, categoryController.addCategory)
+admin_route.post('/addcategory', adminAuth.isLogin, categoryController.uploadCategory);
+
+admin_route.get('/categorystatus', adminAuth.isLogin, categoryController.categoryStatus)
+
+
+admin_route.get('/toggle-status/:userId', adminAuth.isLogin, adminController.toggleUserStatus);
+
+
+
+//edit product
+admin_route.get('/editproduct', productController.editproduct);
+admin_route.post('/editproduct', upload.array('Images', 5), productController.updateproducts);
+// admin_route.post('/editproduct',upload.array('Images',5),productController.updateproducts)
+
+admin_route.get('/deleteproduct', adminAuth.isLogin, productController.deleteproduct);
+
+//edit category
+admin_route.get('/editcategory', adminAuth.isLogin, categoryController.editcategory);
+
+admin_route.post('/editcategory', adminAuth.isLogin, categoryController.updatecategory)
+
+admin_route.get('/deletecategory', adminAuth.isLogin, categoryController.deletecategory)
+
+admin_route.get('/categorystatus', adminAuth.isLogin, categoryController.categoryStatus)
+
+
+module.exports = admin_route

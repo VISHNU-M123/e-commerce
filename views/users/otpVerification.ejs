@@ -1,0 +1,332 @@
+<%-include('../layouts/header.ejs')%>
+    <%-include('../layouts/navbar.ejs')%>
+
+
+        <style>
+            /* Import Google font - Poppins */
+            @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
+
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+                font-family: "Poppins", sans-serif;
+            }
+
+            /* body {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #4070f4;
+    } */
+            :where(.container-2, form, .input-field, header) {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .container {
+                display: flex;
+                justify-content: center;
+            }
+
+            .container-2 {
+                background: #fff;
+                width: fit-content;
+                padding: 30px 65px;
+                border-radius: 12px;
+                row-gap: 20px;
+                box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+            }
+
+            .container-2 header {
+                height: 65px;
+                width: 65px;
+                background: #4070f4;
+                color: #fff;
+                font-size: 2.5rem;
+                border-radius: 50%;
+            }
+
+            .container-2 h4 {
+                font-size: 1.25rem;
+                color: #333;
+                font-weight: 500;
+            }
+
+            form .input-field {
+                flex-direction: row;
+                column-gap: 10px;
+            }
+
+            .input-field input {
+                height: 45px;
+                width: 42px;
+                border-radius: 6px;
+                outline: none;
+                font-size: 1.125rem;
+                text-align: center;
+                border: 1px solid #ddd;
+            }
+
+            .input-field input:focus {
+                box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+            }
+
+            .input-field input::-webkit-inner-spin-button,
+            .input-field input::-webkit-outer-spin-button {
+                display: none;
+            }
+
+            form button {
+                margin-top: 25px;
+                width: 100%;
+                color: #fff;
+                font-size: 1rem;
+                border: none;
+                padding: 9px 0;
+                cursor: pointer;
+                border-radius: 6px;
+                /* pointer-events: none; */
+                background: #6e93f7;
+                transition: all 0.2s ease;
+            }
+
+            form button.active {
+                background: #4070f4;
+                pointer-events: auto;
+            }
+
+            form button:hover {
+                background: #0e4bf1;
+            }
+        </style>
+
+
+
+        <main class="main">
+
+            <div class="login-page bg-image pt-8 pb-8 pt-md-12 pb-md-12 pt-lg-17 pb-lg-17"
+                style="background-image: url('user/assets/images/backgrounds/login-bg.jpg')">
+                <div class="container">
+                    <div class="form-box">
+                        <div class="form-tab">
+                            <ul class="nav nav-pills nav-fill" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active" id="otp-verification" data-toggle="tab" role="tab"
+                                        aria-controls="register-2" aria-selected="true">OTP Verification</a>
+                                </li>
+                            </ul>
+                            <br>
+                            <div class="tab-content">
+                                <div class="tab-pane fade show active" id="signin-2" role="tabpanel"
+                                    aria-labelledby="signin-tab-2">
+
+
+                                    <div class="container-2">
+                                        <!-- <header>
+                                        <i class="bx bxs-check-shield"></i>
+                                    </header> -->
+                                        <h4>Enter OTP Code</h4>
+                                        <form action="/otp" method="POST">
+                                            <div class="input-field">
+                                                <input name="digit1" type="text" required maxlength="1" />
+                                                <input name="digit2" type="text" required maxlength="1" />
+                                                <input name="digit3" type="text" required maxlength="1" />
+                                                <input name="digit4" type="text" required maxlength="1" />
+                                                <input type="text" name="email" value="<%= email %>" hidden>
+                                            </div>
+                                            <br>
+                                            <div id="timer">Time remaining: 1:00</div>
+                                            <span id="timer" style="margin-bottom: 10px; font-size: 1.25rem;"></span>
+
+                                            <a href="/resendotp?email=<%= email %>" class="resend-link hidden">Resend
+                                                OTP</a>
+                                            <button type="submit" class="verify-button hidden" id="verifyOtpButton">Verify OTP</button>
+
+
+                                        </form>
+                                    </div>
+
+                                </div><!-- .End .tab-pane -->
+
+                            </div><!-- End .tab-content -->
+                        </div><!-- End .form-tab -->
+                    </div><!-- End .form-box -->
+                </div><!-- End .container -->
+            </div><!-- End .login-page section-bg -->
+        </main><!-- End .main -->
+
+
+
+        <style>
+            /* Existing styles ... */
+
+            form .resend-link {
+                display: none;
+                /* Initially hide the Resend OTP link */
+                margin-top: 15px;
+                /* Adjust the margin as needed */
+                color: #fff;
+                /* Set the color of the link */
+                text-decoration: none;
+                /* Remove the underline */
+                background-color: #6e93f7;
+                /* Set the background color */
+                padding: 9px 0;
+                /* Adjust the padding as needed */
+                border-radius: 6px;
+                /* Add border-radius for rounded corners */
+                text-align: center;
+                /* Center the text */
+                cursor: pointer;
+                /* Add pointer cursor on hover */
+                width: 185px;
+                height: 40px;
+            }
+
+            /* ... Existing styles */
+        </style>
+
+
+
+
+        <script>
+            const inputs = document.querySelectorAll("input");
+            const verifyButton = document.querySelector(".verify-button");
+            const resendLink = document.querySelector(".resend-link");
+            const timerDisplay = document.getElementById('timer');
+            let timerValue = 60; // Initial timer value in seconds
+
+            function updateTimerDisplay() {
+                const minutes = Math.floor(timerValue / 60);
+                const seconds = timerValue % 60;
+                const timerDisplayText = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+                timerDisplay.textContent = timerDisplayText;
+            }
+
+            function startTimer() {
+                const timerInterval = setInterval(() => {
+                    if (timerValue > 0) {
+                        timerValue--;
+                        updateTimerDisplay();
+                    } else {
+                        clearInterval(timerInterval); // Stop the timer when it reaches 0
+                        verifyButton.style.display = 'none'; // Hide the "Verify OTP" button
+                        resendLink.style.display = 'inline'; // Show the "Resend OTP" link
+                    }
+                }, 1000);
+            }
+
+            // iterate over all inputs
+            inputs.forEach((input, index) => {
+                input.addEventListener("keyup", (e) => {
+                    if (index < inputs.length - 1 && e.target.value !== "") {
+                        inputs[index + 1].focus();
+                    }
+                    // ... (previous code remains the same)
+                });
+            });
+
+            // Focus the first input on window load
+            window.addEventListener("load", () => {
+                inputs[0].focus();
+                startTimer(); // Start the timer when the page loads
+                updateTimerDisplay(); // Display the initial timer value
+            });
+
+
+            //resend otp
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const emailFromURL = urlParams.get('email');
+
+
+        </script>
+
+
+
+
+
+
+
+
+<!-- sweet alert -->
+
+<!-- Include SweetAlert library -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Assuming you have a button for OTP verification with id="verifyOtpButton"
+        const verifyOtpButton = document.getElementById('verifyOtpButton');
+
+        if (verifyOtpButton) {
+            verifyOtpButton.addEventListener('click', async function () {
+                const validOtp = true; 
+
+                if (!validOtp) {
+                    // Show SweetAlert for invalid OTP
+                    await Swal.fire({
+                        icon: 'error',
+                        title: 'Invalid OTP',
+                        text: 'The entered OTP is incorrect. Please try again.',
+                        showConfirmButton: true,
+                        timer: 2000, // Set the timer to 2000 milliseconds (2 seconds)
+                    });
+
+                    // Redirect to the OTP page or perform other actions
+                    window.location.href = `/otp?email=${email}`;
+                }
+            });
+        }
+    });
+</script>
+
+
+
+
+
+
+
+<!-- otp expiry -->
+
+<script>
+    let otpExpired = false
+    function startTimer(){
+        const timerInterval = setInterval(()=>{
+            if(timerValue>0){
+                timerValue--
+                updateTimerDisplay()
+            }else{
+                clearInterval(timerInterval)
+                verifyButton.style.display = 'none'
+                resendLink.style.display = 'inline'
+                otpExpired = true
+                Swal.fire({
+                    icon:'error',
+                    title:'OTP Expired',
+                    text:'The OTP has expired. please request a new one'
+                })
+            }
+        },1000)
+    }
+
+
+
+    dodument.querySelector('form').addEventListener('submit',function(e){
+        e.preventDefault()
+        if(otpExpired){
+            Swal.fire({
+                icon:'error',
+                title:'OTP Expired',
+                text:'The OTP has been expired. please request a new one'
+            })
+            return
+        }
+    })
+</script>
+
+
+        <%-include('../layouts/footerNav.ejs')%>
+            <%-include('../layouts/footer.ejs')%>

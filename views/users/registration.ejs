@@ -1,0 +1,329 @@
+<%-include('../layouts/header.ejs')%>
+    <%-include('../layouts/navbar.ejs')%>
+        <%-include('../layouts/mobileNav.ejs') %>
+
+
+
+            <div class="page-wrapper">
+
+
+                <main class="main">
+
+                    <div class="login-page bg-image pt-8 pb-8 pt-md-12 pb-md-12 pt-lg-17 pb-lg-17"
+                        style="background-image: url('user/assets/images/backgrounds/login-bg.jpg')">
+                        <div class="container">
+                            <div class="form-box">
+                                <div class="form-tab">
+                                    <ul class="nav nav-pills nav-fill" role="tablist">
+                                        <li class="nav-item">
+                                            <a class="nav-link active" id="register-tab-2" data-toggle="tab"
+                                                href="#register-2" role="tab" aria-controls="register-2"
+                                                aria-selected="true">Register</a>
+                                        </li>
+                                    </ul>
+                                    <div class="tab-content">
+                                        <div class="tab-pane fade show active" id="register-2" role="tabpanel"
+                                            aria-labelledby="register-tab-2">
+                                            <form method="post" action="/register">
+
+                                                <div class="form-group">
+                                                    <label for="register-name-2">Full Name *</label>
+                                                    <input type="text" class="form-control" id="register-name-2"
+                                                        name="name" required>
+                                                    <div class="error-message" id="name-error"></div>
+                                                </div><!-- End .form-group -->
+
+                                                <div class="form-group">
+                                                    <label for="register-email-2">Your email address *</label>
+                                                    <input type="email" class="form-control" id="register-email-2"
+                                                        name="email" required>
+                                                </div><!-- End .form-group -->
+
+                                                <div class="form-group">
+                                                    <label for="register-mobile">Your Mobile Number *</label>
+                                                    <input type="text" class="form-control" id="register-mobile"
+                                                        name="mobile" required>
+                                                </div><!-- End .form-group -->
+
+                                                <div class="form-group">
+                                                    <label for="register-password-2">Password *</label>
+                                                    <input type="password" class="form-control" id="register-password-2"
+                                                        name="password" required>
+                                                </div> <!-- End .form-group -->
+
+                                                <!-- <div class="form-group">
+                                        <label for="register-confirpassword-2">Confirm Password *</label>
+                                        <input type="password" class="form-control" id="register-confirmpassword-2" name="confirmPassword" required>
+                                    </div>  End .form-group -->
+
+                                                <!-- <div class="form-group">
+                                        <label for="singin-password-2">Password *</label>
+                                        <input type="password" class="form-control" id="singin-password-2" name="password" required>
+                                        <div class="password-error error-message"></div>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="confirm-password">Confirm Password *</label>
+                                        <input type="password" class="form-control" id="confirm-password" name="confirmPassword" required>
+                                        <div class="confirm-password-error error-message"></div>
+                                    </div> -->
+
+                                                <div class="form-footer">
+                                                    <button type="submit" class="btn btn-outline-primary-2">
+                                                        <span>SIGN UP</span>
+                                                        <i class="icon-long-arrow-right"></i>
+                                                    </button>
+
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input type="checkbox" class="custom-control-input"
+                                                            id="register-policy-2" required>
+                                                        <label class="custom-control-label" for="register-policy-2">I
+                                                            agree to the <a href="#">privacy policy</a> *</label>
+                                                    </div><!-- End .custom-checkbox -->
+                                                    <div class="form-footer">
+                                                    </div>
+
+
+                                                    <div class="error-message">
+                                                        <%= typeof err !=='undefined' ? err : '' %>
+                                                    </div>
+
+
+
+                                                </div><!-- End .form-footer -->
+                                                <a href="login">already have an account ?</a>
+                                            </form>
+
+                                        </div><!-- .End .tab-pane -->
+                                    </div><!-- End .tab-content -->
+                                </div><!-- End .form-tab -->
+                            </div><!-- End .form-box -->
+                        </div><!-- End .container -->
+                    </div><!-- End .login-page section-bg -->
+                </main><!-- End .main -->
+
+
+            </div><!-- End .page-wrapper -->
+            <button id="scroll-top" title="Back to Top"><i class="icon-arrow-up"></i></button>
+
+            <!-- Sign in / Register Modal -->
+
+
+
+            <!-- Add this script to your HTML -->
+
+
+            <!-- <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    const form = document.querySelector('form');
+                    const fullNameInput = form.querySelector('#register-name-2');
+                    const emailInput = form.querySelector('#register-email-2');
+                    const mobileInput = form.querySelector('#register-mobile');
+                    const passwordInput = form.querySelector('#register-password-2');
+
+                    form.addEventListener('submit', function (event) {
+                        // Remove previous error messages
+                        removeErrorMessages();
+
+                        if (!validateForm()) {
+                            event.preventDefault(); // Prevent form submission if validation fails
+                        }
+                    });
+
+                    function validateForm() {
+                        let isValid = true;
+
+                        const fullNameValue = fullNameInput.value.trim();
+                        const emailValue = emailInput.value.trim();
+                        const mobileValue = mobileInput.value.trim();
+                        const passwordValue = passwordInput.value;
+
+                        // Validate full name
+                        const nameRegex = /^[a-zA-Z\s]*$/;
+                        if (!nameRegex.test(fullNameValue)) {
+                            displaySweetAlert('Please enter a valid name without numbers or spaces.');
+                            isValid = false;
+                        }
+
+                        // Validate email
+                        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                        if (!emailRegex.test(emailValue)) {
+                            displaySweetAlert('Please enter a valid email.');
+                            isValid = false;
+                        }
+
+                        // Validate mobile
+                        if (!/^\d{10}$/.test(mobileValue)) {
+                            displaySweetAlert('Please enter a valid mobile number.');
+                            isValid = false;
+                        }
+
+                        // Validate password
+                        if (passwordValue.length < 6) {
+                            displaySweetAlert('Password must be at least 6 characters.');
+                            isValid = false;
+                        }
+
+                        return isValid;
+                    }
+
+                    function displaySweetAlert(message) {
+                     // Use SweetAlert to display an error message
+                         Swal.fire({
+                             icon: 'error',
+                             title: 'Validation Error',
+                             text: message,
+                             confirmButtonColor: '#3085d6',
+                             confirmButtonText: 'OK'
+                         });
+        }
+
+                    function removeErrorMessages() {
+                        // Remove previous error messages
+                        const existingErrorMessages = document.querySelectorAll('.error-message');
+                        existingErrorMessages.forEach(msg => msg.remove());
+                    }
+                });
+            </script> -->
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<!-- 
+            <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const form = document.querySelector('#register-2 form');
+      const passwordInput = form.querySelector('#register-password-2');
+      const confirmPasswordInput = form.querySelector('#confirm-password');
+      const formFooter = form.querySelector('.form-footer');
+      
+      form.addEventListener('submit', function (event) {
+        if (!validatePassword() || !validateConfirmPassword()) {
+          event.preventDefault(); // Prevent form submission if validation fails
+        }
+      });
+  
+      function validatePassword() {
+        const passwordValue = passwordInput.value;
+        const passwordError = form.querySelector('.password-error');
+  
+        if (passwordValue.length < 8) {
+          passwordError.textContent = 'Password must be at least 8 characters';
+          return false;
+        } else {
+          passwordError.textContent = '';
+          return true;
+        }
+      }
+  
+      function validateConfirmPassword() {
+        const passwordValue = passwordInput.value;
+        const confirmPasswordValue = confirmPasswordInput.value;
+        const confirmPasswordError = form.querySelector('.confirm-password-error');
+  
+        if (confirmPasswordValue !== passwordValue) {
+          confirmPasswordError.textContent = 'Passwords do not match';
+          return false;
+        } else {
+          confirmPasswordError.textContent = '';
+          return true;
+        }
+      }
+  
+      // Add event listeners for input
+      passwordInput.addEventListener('input', validatePassword);
+      confirmPasswordInput.addEventListener('input', validateConfirmPassword);
+    });
+  </script> -->
+
+
+
+
+  <!-- SweetAlert -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const form = document.querySelector('#register-2 form');
+        const fullNameInput = form.querySelector('#register-name-2');
+        const emailInput = form.querySelector('#register-email-2');
+        const mobileInput = form.querySelector('#register-mobile');
+        const passwordInput = form.querySelector('#register-password-2');
+
+        form.addEventListener('submit', function (event) {
+            // Remove previous error messages
+            removeErrorMessages();
+
+            if (!validateForm()) {
+                event.preventDefault(); // Prevent form submission if validation fails
+            }
+        });
+
+        function validateForm() {
+            let isValid = true;
+
+            const fullNameValue = fullNameInput.value.trim();
+            const emailValue = emailInput.value.trim();
+            const mobileValue = mobileInput.value.trim();
+            const passwordValue = passwordInput.value;
+
+            // Validate full name
+            const nameRegex = /^[a-zA-Z\s]*$/;
+            const trimmedFullName = fullNameValue.trim();
+            if (!trimmedFullName||!nameRegex.test(fullNameValue)) {
+                displaySweetAlert('Please enter a valid name without numbers or spaces.');
+                isValid = false;
+            }
+
+            // Validate email
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(emailValue)) {
+                displaySweetAlert('Please enter a valid email.');
+                isValid = false;
+            }
+
+            // Validate mobile
+            if (!/^\d{10}$/.test(mobileValue)) {
+                displaySweetAlert('Please enter a valid mobile number.');
+                isValid = false;
+            }
+
+            // Validate password
+            if (passwordValue.length < 6) {
+                displaySweetAlert('Password must be at least 6 characters.');
+                isValid = false;
+            }
+
+            return isValid;
+        }
+
+        function displaySweetAlert(message) {
+            // Use SweetAlert to display an error message
+            Swal.fire({
+                icon: 'error',
+                title: 'Validation Error',
+                text: message,
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'OK'
+            });
+        }
+
+        function removeErrorMessages() {
+            // Remove previous error messages
+            const existingErrorMessages = document.querySelectorAll('.error-message');
+            existingErrorMessages.forEach(msg => msg.remove());
+        }
+    });
+</script>
+
+<script>
+    // Check for the error parameter in the URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const error = urlParams.get('error');
+  
+    // Display error message if applicable
+    if (error === 'emailTaken') {
+      Swal.fire('Error', 'Email already taken', 'error');
+    }
+  </script>
+
+
+            <%-include('../layouts/footerNav.ejs')%>
+                <%-include('../layouts/footer.ejs')%>

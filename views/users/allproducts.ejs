@@ -1,0 +1,1062 @@
+<!-- Favicon -->
+<link rel="apple-touch-icon" sizes="180x180" href="/user/assets/images/icons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/user/assets/images/icons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/user/assets/images/icons/favicon-16x16.png">
+<link rel="manifest" href="/user/assets/images/icons/site.html">
+<link rel="mask-icon" href="/user/assets/images/icons/safari-pinned-tab.svg" color="#666666">
+<link rel="shortcut icon" href="/user/assets/images/icons/favicon.ico">
+<meta name="apple-mobile-web-app-title" content="Molla">
+<meta name="application-name" content="Molla">
+<meta name="msapplication-TileColor" content="#cc9966">
+<meta name="msapplication-config" content="/user/assets/images/icons/browserconfig.xml">
+<meta name="theme-color" content="#ffffff">
+<!-- Plugins CSS File -->
+<link rel="stylesheet" href="/user/assets/css/bootstrap.min.css">
+<link rel="stylesheet" href="/user/assets/css/plugins/owl-carousel/owl.carousel.css">
+<link rel="stylesheet" href="/user/assets/css/plugins/magnific-popup/magnific-popup.css">
+<link rel="stylesheet" href="/user/assets/css/plugins/jquery.countdown.css">
+<!-- Main CSS File -->
+<link rel="stylesheet" href="/user/assets/css/style.css">
+
+<%- include('../layouts/header.ejs') %>
+    <%- include('../layouts/navbar.ejs') %>
+
+
+
+        <div class="page-wrapper">
+
+            <main class="main">
+                <div class="page-header text-center"
+                    style="background-image: url('/user/assets/images/page-header-bg.jpg')">
+                    <!-- <div class="container">
+        			<h1 class="page-title">Products<span>Elements</span></h1>
+        		</div> -->
+                    <!-- End .container -->
+                </div>
+                <!-- End .page-header -->
+                <!-- <nav aria-label="breadcrumb" class="breadcrumb-nav"> -->
+                <!-- <div class="container">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                        <li class="breadcrumb-item"><a href="elements-list.html">Elements</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Products</li>
+                    </ol>
+                </div> -->
+                <!-- End .container -->
+                <!-- </nav> -->
+                <!-- End .breadcrumb-nav -->
+
+                <div class="page-content">
+
+
+
+
+<!-- filter and sort -->
+
+<div class="container">
+    <div class="row">
+        <!-- Left div in the left corner -->
+        <div class="col-md-3 order-md-1 order-2">
+            <div class="toolbox-right">
+                <div class="toolbox-sort form-group">
+                    <div class="select-custom">
+                        <select name="category" id="filter" class="form-control" onchange="updateSort(this)">
+                            <option value="/allproducts" <%=sortOption==='default' ? 'selected' : '' %>>All Category</option>
+                            <option value="/allproducts?sort=priceLowTohigh&category=men" <%=selectedCategory==='men' ? 'selected' : '' %>>Men</option>
+                            <option value="/allproducts?sort=2&category=women" <%=selectedCategory==='women' ? 'selected' : '' %>>Women</option>
+                           
+                        </select>
+
+
+                        <script>
+                            function updateSort(select) {
+                                const selectedCategory = select.value;
+                                // Now, you have the selected category, you can use it as needed.
+                                console.log('Selected Category:', selectedCategory);
+                        
+                                // Your logic to navigate to the selected URL or perform other actions.
+                                window.location.href = selectedCategory; // Example: navigate to the selected URL
+                            }
+                        </script>
+
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right div in the right corner -->
+        <div class="col-md-9 order-md-2 order-1">
+            <div class="toolbox-right">
+                <div class="toolbox-sort form-group">
+                    <div class="select-custom">
+                        <select name="sortby" id="sortby" class="form-control" onchange="updateSort(this)">
+                            <option value="/allproducts?sort=default" <%=sortOption==='default' ? 'selected' : '' %>>Sort By</option>
+                            <option value="/allproducts?sort=priceLowToHigh" <%=sortOption==='priceLowToHigh' ? 'selected' : '' %>>Low-High</option>
+                            <option value="/allproducts?sort=priceHighToLow" <%=sortOption==='priceHighToLow' ? 'selected' : '' %>>High-Low</option>
+                            <option value="/allproducts?sort=name" <%=sortOption==='name' ? 'selected' : '' %>>Name</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+                    <div class="container">
+                        <!-- <h2 class="title text-center mb-3">3 Columns Large</h2> -->
+                        <!-- End .title -->
+
+                        <div class="row">
+                            <% if (products.length> 0) { %>
+                                <% products.forEach(data=> { %>
+                                    <div class="col-6 col-md-4 col-lg-4">
+                                        <div class="product text-center">
+                                            <figure class="product-media">
+                                                <!-- <span class="product-label label-sale">30% off</span> -->
+                                                <a href="product?id=<%=data._id %>"
+                                                    data-product-image="<%= data.Images %>">
+                                                    <img src="/uploads/<%= data.Images[0] %>" alt="Product image"
+                                                        class="product-image">
+                                                </a>
+
+                                                <div class="product-action">
+                                                    <a href="#" class="btn-product btn-cart"><span>add to
+                                                            cart</span></a>
+                                                    <a href="popup/quickView.html" class="btn-product btn-quickview"
+                                                        title="Quick view"><span>quick view</span></a>
+                                                    <a href="#" class="btn-product btn-compare"
+                                                        title="Compare"><span>compare</span></a>
+                                                </div><!-- End .product-action -->
+                                            </figure><!-- End .product-media -->
+
+                                            <div class="product-body">
+                                                <div class="product-cat">
+                                                    <a href="#">
+                                                        <%= data.Category %>
+                                                    </a>
+                                                </div><!-- End .product-cat -->
+                                                <h3 class="product-title"><a href="product">
+                                                        <%= data.Name %>
+                                                    </a></h3><!-- End .product-title -->
+                                                <div class="product-price">
+                                                    <span class="new-price">$<%= data.OfferPrice%></span>
+                                                    <span class="old-price">$<%= data.Price %></span>
+                                                </div><!-- End .product-price -->
+                                                <div class="product-size">
+                                                    <a href="#" class="disabled" title="Small">S</a>
+                                                    <a href="#" title="Medium">M</a>
+                                                    <a href="#" class="active" title="Large">L</a>
+                                                    <a href="#" title="Extra Large">XL</a>
+                                                </div><!-- End .product-size -->
+                                                <div class="ratings-container">
+                                                    <div class="ratings">
+                                                        <div class="ratings-val" style="width: 40%;"></div>
+                                                        <!-- End .ratings-val -->
+                                                    </div><!-- End .ratings -->
+                                                    <span class="ratings-text">( 4 Reviews )</span>
+                                                </div><!-- End .rating-container -->
+
+                                            </div><!-- End .product-body -->
+                                        </div><!-- End .product -->
+                                    </div><!-- End .col-sm-6 col-lg-4 -->
+
+                                    <% }) %>
+                                        <% } %>
+
+                                  
+                        </div><!-- End .row -->
+
+
+                        <style>
+                            .product-media {
+                                height: 450px; /* Set a fixed height for each product media container */
+                                overflow: hidden;
+                            }
+                        
+                            .product-image {
+                                width: 100%; /* Make the product image fill its container */
+                                height: auto; /* Maintain the aspect ratio */
+                            }
+                        
+                            @media (max-width: 767px) {
+                                /* Adjust styles for smaller screens */
+                                .product-media {
+                                    height: 200px; /* Decrease the height for smaller screens */
+                                }
+                            }
+                        
+                            /* Add any additional styling as needed */
+                        </style>
+                        
+
+
+                        <div class="d-flex justify-content-center" >
+                            <nav aria-label="Page navigation">
+                                <ul class="pagination">
+                                    <% if (totalPages > 1) { %>
+                                        <% if (currentPage > 1) { %>
+                                            <li class="page-item">
+                                                <a class="page-link" href="?page=<%= currentPage - 1 %>" aria-label="Previous">
+                                                    <span aria-hidden="true">&laquo;</span>
+                                                </a>
+                                            </li>
+                                        <% } %>
+                
+                                        <% for (let i = 1; i <= totalPages; i++) { %>
+                                            <li class="page-item <%= currentPage === i ? 'active' : '' %>">
+                                                <a class="page-link" href="?page=<%= i %>"><%= i %></a>
+                                            </li>
+                                        <% } %>
+                
+                                        <% if (currentPage < totalPages) { %>
+                                            <li class="page-item">
+                                                <a class="page-link" href="?page=<%= currentPage + 1 %>" aria-label="Next">
+                                                    <span aria-hidden="true">&raquo;</span>
+                                                </a>
+                                            </li>
+                                        <% } %>
+                                    <% } %>
+                                </ul>
+                            </nav>
+                        </div>  <!-- End .pagination -->
+
+
+
+
+                        <!-- <h2 class="title text-center mb-3">4 Columns Carousel</h2> -->
+                        <!-- End .title -->
+
+                        <div class="owl-carousel owl-simple carousel-equal-height carousel-with-shadow"
+                            data-toggle="owl" data-owl-options='{
+                            "nav": false, 
+                            "dots": false,
+                            "margin": 20,
+                            "loop": false,
+                            "responsive": {
+                                "0": {
+                                    "items":2
+                                },
+                                "480": {
+                                    "items":2
+                                },
+                                "992": {
+                                    "items":3
+                                },
+                                "1200": {
+                                    "items":4
+                                }
+                            }
+                        }'>
+
+                            <div class="product">
+                                <figure class="product-media">
+                                    <a href="product">
+                                        <img src="/user/assets/images/products/elements/product-2.jpg"
+                                            alt="Product image" class="product-image">
+                                    </a>
+
+                                    <div class="product-action action-icon-top">
+                                        <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
+                                        <a href="popup/quickView.html" class="btn-product btn-quickview"
+                                            title="Quick view"><span>quick view</span></a>
+                                        <a href="#" class="btn-product btn-compare"
+                                            title="Compare"><span>compare</span></a>
+                                    </div><!-- End .product-action -->
+                                </figure><!-- End .product-media -->
+
+                                <div class="product-body product-action-inner">
+                                    <a href="#" class="btn-product btn-wishlist" title="Add to wishlist"><span>add to
+                                            wishlist</span></a>
+                                    <div class="product-cat">
+                                        <a href="#">Men</a>
+                                    </div><!-- End .product-cat -->
+                                    <h3 class="product-title"><a href="product">Vestibulum auctor</a></h3>
+                                    <!-- End .product-title -->
+                                    <div class="product-price">
+                                        $120.00
+                                    </div><!-- End .product-price -->
+                                    <div class="ratings-container">
+                                        <div class="ratings ratings-primary">
+                                            <div class="ratings-val" style="width: 60%;"></div><!-- End .ratings-val -->
+                                        </div><!-- End .ratings -->
+                                        <span class="ratings-text">( 4 Reviews )</span>
+                                    </div><!-- End .rating-container -->
+                                </div><!-- End .product-body -->
+                            </div><!-- End .product -->
+
+                            <div class="product">
+                                <figure class="product-media">
+                                    <span class="product-label label-new">New</span>
+                                    <a href="product">
+                                        <img src="/user/assets/images/products/elements/product-3.jpg"
+                                            alt="Product image" class="product-image">
+                                        <img src="/user/assets/images/products/elements/product-3-2.jpg"
+                                            alt="Product image" class="product-image-hover">
+                                    </a>
+
+                                    <div class="product-action action-icon-top">
+                                        <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
+                                        <a href="popup/quickView.html" class="btn-product btn-quickview"
+                                            title="Quick view"><span>quick view</span></a>
+                                        <a href="#" class="btn-product btn-compare"
+                                            title="Compare"><span>compare</span></a>
+                                    </div><!-- End .product-action -->
+                                </figure><!-- End .product-media -->
+
+                                <div class="product-body product-action-inner">
+                                    <a href="#" class="btn-product btn-wishlist" title="Add to wishlist"><span>add to
+                                            wishlist</span></a>
+                                    <div class="product-cat">
+                                        <a href="#">Women</a>
+                                    </div><!-- End .product-cat -->
+                                    <h3 class="product-title"><a href="product">Nunc dignissim risus</a></h3>
+                                    <!-- End .product-title -->
+                                    <div class="product-price">
+                                        $50.00
+                                    </div><!-- End .product-price -->
+                                    <div class="ratings-container">
+                                        <div class="ratings">
+                                            <div class="ratings-val ratings-primary" style="width: 0%;"></div>
+                                            <!-- End .ratings-val -->
+                                        </div><!-- End .ratings -->
+                                        <span class="ratings-text">( 0 Reviews )</span>
+                                    </div><!-- End .rating-container -->
+
+                                    <div class="product-nav product-nav-dots">
+                                        <a href="#" class="active" style="background: #cc9966;"><span
+                                                class="sr-only">Color name</span></a>
+                                        <a href="#" style="background: #ebebeb;"><span class="sr-only">Color
+                                                name</span></a>
+                                    </div><!-- End .product-nav -->
+                                </div><!-- End .product-body -->
+                            </div><!-- End .product -->
+
+                            <div class="product">
+                                <figure class="product-media">
+                                    <span class="product-label label-out">Out Of Stock</span>
+                                    <a href="product">
+                                        <img src="/user/assets/images/products/elements/product-4.jpg"
+                                            alt="Product image" class="product-image">
+                                    </a>
+
+                                    <div class="product-action action-icon-top">
+                                        <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
+                                        <a href="popup/quickView.html" class="btn-product btn-quickview"
+                                            title="Quick view"><span>quick view</span></a>
+                                        <a href="#" class="btn-product btn-compare"
+                                            title="Compare"><span>compare</span></a>
+                                    </div><!-- End .product-action -->
+                                </figure><!-- End .product-media -->
+
+                                <div class="product-body product-action-inner">
+                                    <a href="#" class="btn-product btn-wishlist" title="Add to wishlist"><span>add to
+                                            wishlist</span></a>
+                                    <div class="product-cat">
+                                        <a href="#">Accessories</a>
+                                    </div><!-- End .product-cat -->
+                                    <h3 class="product-title"><a href="product">Cras ornare tristique</a></h3>
+                                    <!-- End .product-title -->
+                                    <div class="product-price">
+                                        <span class="out-price">$32.00</span>
+                                    </div><!-- End .product-price -->
+                                    <div class="ratings-container">
+                                        <div class="ratings ratings-primary">
+                                            <div class="ratings-val" style="width: 80%;"></div><!-- End .ratings-val -->
+                                        </div><!-- End .ratings -->
+                                        <span class="ratings-text">( 11 Reviews )</span>
+                                    </div><!-- End .rating-container -->
+                                </div><!-- End .product-body -->
+                            </div><!-- End .product -->
+                        </div><!-- End .owl-carousel -->
+
+                        <!-- <h2 class="title text-center mb-3">4 Columns Carousel 2</h2> -->
+                        <!-- End .title -->
+
+                        <div class="owl-carousel owl-simple carousel-equal-height carousel-with-shadow"
+                            data-toggle="owl" data-owl-options='{
+                            "nav": false, 
+                            "dots": false,
+                            "margin": 20,
+                            "loop": false,
+                            "responsive": {
+                                "0": {
+                                    "items":2
+                                },
+                                "480": {
+                                    "items":2
+                                },
+                                "992": {
+                                    "items":3
+                                },
+                                "1200": {
+                                    "items":4
+                                }
+                            }
+                        }'>
+                            <div class="product product-2">
+                                <figure class="product-media">
+                                    <span class="product-label label-circle label-sale">Sale</span>
+                                    <a href="product">
+                                        <img src="/user/assets/images/products/elements/product-1.jpg"
+                                            alt="Product image" class="product-image">
+                                    </a>
+
+                                    <div class="product-countdown" data-until="2019, 11, 2"></div>
+                                    <!-- End .product-countdown -->
+
+                                    <div class="product-action-vertical">
+                                        <a href="#" class="btn-product-icon btn-wishlist btn-expandable"><span>add to
+                                                wishlist</span></a>
+                                    </div><!-- End .product-action -->
+
+                                    <div class="product-action product-action-dark">
+                                        <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
+                                        <a href="popup/quickView.html" class="btn-product btn-quickview"
+                                            title="Quick view"><span>quick view</span></a>
+                                    </div><!-- End .product-action -->
+                                </figure><!-- End .product-media -->
+
+                                <div class="product-body">
+                                    <div class="product-cat">
+                                        <a href="#">Women</a>
+                                    </div><!-- End .product-cat -->
+                                    <h3 class="product-title"><a href="product">Aliquam tincidunt mauris</a></h3>
+                                    <!-- End .product-title -->
+                                    <div class="product-price">
+                                        <span class="new-price">$50.00</span>
+                                        <span class="old-price">$84.00</span>
+                                    </div><!-- End .product-price -->
+                                    <div class="ratings-container">
+                                        <div class="ratings">
+                                            <div class="ratings-val" style="width: 40%;"></div><!-- End .ratings-val -->
+                                        </div><!-- End .ratings -->
+                                        <span class="ratings-text">( 4 Reviews )</span>
+                                    </div><!-- End .rating-container -->
+
+                                    <div class="product-nav product-nav-thumbs">
+                                        <a href="#" class="active">
+                                            <img src="/user/assets/images/products/elements/product-thumb-1.jpg"
+                                                alt="product desc">
+                                        </a>
+                                        <a href="#">
+                                            <img src="/user/assets/images/products/elements/product-thumb-2.jpg"
+                                                alt="product desc">
+                                        </a>
+
+                                        <a href="#">
+                                            <img src="/user/assets/images/products/elements/product-thumb-3.jpg"
+                                                alt="product desc">
+                                        </a>
+                                    </div><!-- End .product-nav -->
+                                </div><!-- End .product-body -->
+                            </div><!-- End .product -->
+
+                            <div class="product product-2">
+                                <figure class="product-media">
+                                    <a href="product">
+                                        <img src="/user/assets/images/products/elements/product-2.jpg"
+                                            alt="Product image" class="product-image">
+                                    </a>
+
+                                    <div class="product-action-vertical">
+                                        <a href="#" class="btn-product-icon btn-wishlist btn-expandable"><span>add to
+                                                wishlist</span></a>
+                                    </div><!-- End .product-action -->
+
+                                    <div class="product-action product-action-dark">
+                                        <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
+                                        <a href="popup/quickView.html" class="btn-product btn-quickview"
+                                            title="Quick view"><span>quick view</span></a>
+                                    </div><!-- End .product-action -->
+                                </figure><!-- End .product-media -->
+
+                                <div class="product-body">
+                                    <div class="product-cat">
+                                        <a href="#">Men</a>
+                                    </div><!-- End .product-cat -->
+                                    <h3 class="product-title"><a href="product">Vestibulum auctor</a></h3>
+                                    <!-- End .product-title -->
+                                    <div class="product-price">
+                                        $120.00
+                                    </div><!-- End .product-price -->
+                                    <div class="ratings-container">
+                                        <div class="ratings">
+                                            <div class="ratings-val" style="width: 60%;"></div><!-- End .ratings-val -->
+                                        </div><!-- End .ratings -->
+                                        <span class="ratings-text">( 4 Reviews )</span>
+                                    </div><!-- End .rating-container -->
+                                </div><!-- End .product-body -->
+                            </div><!-- End .product -->
+
+                            <div class="product product-2">
+                                <figure class="product-media">
+                                    <span class="product-label label-circle label-new">New</span>
+                                    <a href="product">
+                                        <img src="/user/assets/images/products/elements/product-3.jpg"
+                                            alt="Product image" class="product-image">
+                                        <img src="/user/assets/images/products/elements/product-3-2.jpg"
+                                            alt="Product image" class="product-image-hover">
+                                    </a>
+
+                                    <div class="product-action-vertical">
+                                        <a href="#" class="btn-product-icon btn-wishlist btn-expandable"><span>add to
+                                                wishlist</span></a>
+                                    </div><!-- End .product-action -->
+
+                                    <div class="product-action product-action-dark">
+                                        <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
+                                        <a href="popup/quickView.html" class="btn-product btn-quickview"
+                                            title="Quick view"><span>quick view</span></a>
+                                    </div><!-- End .product-action -->
+                                </figure><!-- End .product-media -->
+
+                                <div class="product-body">
+                                    <div class="product-cat">
+                                        <a href="#">Women</a>
+                                    </div><!-- End .product-cat -->
+                                    <h3 class="product-title"><a href="product">Nunc dignissim risus</a></h3>
+                                    <!-- End .product-title -->
+                                    <div class="product-price">
+                                        $50.00
+                                    </div><!-- End .product-price -->
+                                    <div class="ratings-container">
+                                        <div class="ratings">
+                                            <div class="ratings-val" style="width: 0%;"></div><!-- End .ratings-val -->
+                                        </div><!-- End .ratings -->
+                                        <span class="ratings-text">( 0 Reviews )</span>
+                                    </div><!-- End .rating-container -->
+
+                                    <div class="product-nav product-nav-thumbs">
+                                        <a href="#" class="active">
+                                            <img src="/user/assets/images/products/elements/product-thumb-4.jpg"
+                                                alt="product desc">
+                                        </a>
+                                        <a href="#">
+                                            <img src="/user/assets/images/products/elements/product-thumb-5.jpg"
+                                                alt="product desc">
+                                        </a>
+                                    </div><!-- End .product-nav -->
+                                </div><!-- End .product-body -->
+                            </div><!-- End .product -->
+
+                            <div class="product product-2">
+                                <figure class="product-media">
+                                    <a href="product">
+                                        <img src="/user/assets/images/products/elements/product-4.jpg"
+                                            alt="Product image" class="product-image">
+                                    </a>
+
+                                    <div class="product-action-vertical">
+                                        <a href="#" class="btn-product-icon btn-wishlist btn-expandable"><span>add to
+                                                wishlist</span></a>
+                                    </div><!-- End .product-action -->
+
+                                    <div class="product-action product-action-dark">
+                                        <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
+                                        <a href="popup/quickView.html" class="btn-product btn-quickview"
+                                            title="Quick view"><span>quick view</span></a>
+                                    </div><!-- End .product-action -->
+                                </figure><!-- End .product-media -->
+
+                                <div class="product-body">
+                                    <div class="product-cat">
+                                        <a href="#">Accessories</a>
+                                    </div><!-- End .product-cat -->
+                                    <h3 class="product-title"><a href="product">Cras ornare tristique</a></h3>
+                                    <!-- End .product-title -->
+                                    <div class="product-price">
+                                        <span class="out-price">$32.00</span>
+                                    </div><!-- End .product-price -->
+                                    <div class="ratings-container">
+                                        <div class="ratings">
+                                            <div class="ratings-val" style="width: 80%;"></div><!-- End .ratings-val -->
+                                        </div><!-- End .ratings -->
+                                        <span class="ratings-text">( 11 Reviews )</span>
+                                    </div><!-- End .rating-container -->
+                                </div><!-- End .product-body -->
+                            </div><!-- End .product -->
+                        </div><!-- End .owl-carousel -->
+
+
+
+                        <!-- <h2 class="title text-center mb-3">4 Columns Simple</h2> -->
+                        <!-- End .title -->
+
+                        <div class="row">
+
+
+
+                        </div><!-- End .row -->
+
+
+                        <!-- <h2 class="title text-center mb-3">5 Columns Simple</h2> -->
+                        <!-- End .title -->
+
+                        <div class="owl-carousel owl-simple carousel-equal-height carousel-with-shadow product-4-carousel"
+                            data-toggle="owl" data-owl-options='{
+                            "nav": false, 
+                            "dots": false,
+                            "margin": 20,
+                            "loop": false,
+                            "responsive": {
+                                "0": {
+                                    "items":2
+                                },
+                                "480": {
+                                    "items":2
+                                },
+                                "768": {
+                                    "items":3
+                                },
+                                "992": {
+                                    "items":4
+                                },
+                                "1200": {
+                                    "items":5
+                                }
+                            }
+                        }'>
+                            <div class="product product-4 text-center">
+                                <figure class="product-media">
+                                    <span class="product-label label-circle label-top">Top</span>
+                                    <a href="product">
+                                        <img src="/user/assets/images/products/elements/5cols/product-1.jpg"
+                                            alt="Product image" class="product-image">
+                                    </a>
+
+                                    <div class="product-action-vertical">
+                                        <a href="#" class="btn-product-icon btn-wishlist btn-expandable"><span>add to
+                                                wishlist</span></a>
+                                    </div><!-- End .product-action -->
+
+                                    <div class="product-action">
+                                        <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
+                                    </div><!-- End .product-action -->
+                                </figure><!-- End .product-media -->
+
+                                <div class="product-body">
+                                    <h3 class="product-title"><a href="product">Aliquam tincidunt</a></h3>
+                                    <!-- End .product-title -->
+                                    <div class="product-price">
+                                        $299.00
+                                    </div><!-- End .product-price -->
+                                </div><!-- End .product-body -->
+                            </div><!-- End .product -->
+
+                            <div class="product product-4 text-center product-disabled">
+                                <figure class="product-media">
+                                    <a href="product">
+                                        <img src="/user/assets/images/products/elements/5cols/product-2.jpg"
+                                            alt="Product image" class="product-image">
+                                    </a>
+
+                                    <div class="product-action-vertical">
+                                        <a href="#" class="btn-product-icon btn-wishlist btn-expandable"><span>add to
+                                                wishlist</span></a>
+                                    </div><!-- End .product-action -->
+
+                                    <div class="product-action">
+                                        <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
+                                    </div><!-- End .product-action -->
+                                </figure><!-- End .product-media -->
+
+                                <div class="product-body">
+                                    <h3 class="product-title"><a href="product">Vestibulum auctor</a></h3>
+                                    <!-- End .product-title -->
+                                    <div class="product-price">
+                                        <span class="out-price">$32.00</span>
+                                    </div><!-- End .product-price -->
+
+                                    <div class="product-label-text">Out Of Stock</div><!-- End .product-label-text -->
+                                </div><!-- End .product-body -->
+                            </div><!-- End .product -->
+
+                            <div class="product product-4 text-center">
+                                <figure class="product-media">
+                                    <span class="product-label label-circle label-sale">Sale</span>
+                                    <a href="product">
+                                        <img src="/user/assets/images/products/elements/5cols/product-3.jpg"
+                                            alt="Product image" class="product-image">
+                                    </a>
+
+                                    <div class="product-countdown-container">
+                                        <span class="product-contdown-title">offer ends in:</span>
+                                        <div class="product-countdown countdown-compact" data-until="2019, 10, 5"
+                                            data-compact="true"></div><!-- End .product-countdown -->
+                                    </div><!-- End .product-countdown-container -->
+
+                                    <div class="product-action-vertical">
+                                        <a href="#" class="btn-product-icon btn-wishlist btn-expandable"><span>add to
+                                                wishlist</span></a>
+                                    </div><!-- End .product-action -->
+
+                                    <div class="product-action">
+                                        <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
+                                    </div><!-- End .product-action -->
+                                </figure><!-- End .product-media -->
+
+                                <div class="product-body">
+                                    <h3 class="product-title"><a href="product">Nunc dignissim risus</a></h3>
+                                    <!-- End .product-title -->
+                                    <div class="product-price">
+                                        <span class="new-price">$50.00</span>
+                                        <span class="old-price">$84.00</span>
+                                    </div><!-- End .product-price -->
+                                    <div class="product-nav product-nav-dots">
+                                        <a href="#" class="active" style="background: #cc9966;"><span
+                                                class="sr-only">Color name</span></a>
+                                        <a href="#" style="background: #7fc5ed;"><span class="sr-only">Color
+                                                name</span></a>
+                                        <a href="#" style="background: #e8c97a;"><span class="sr-only">Color
+                                                name</span></a>
+                                    </div><!-- End .product-nav -->
+                                </div><!-- End .product-body -->
+                            </div><!-- End .product -->
+
+                            <div class="product product-4 text-center">
+                                <figure class="product-media">
+                                    <a href="product">
+                                        <img src="/user/assets/images/products/elements/5cols/product-4.jpg"
+                                            alt="Product image" class="product-image">
+                                    </a>
+
+                                    <div class="product-action-vertical">
+                                        <a href="#" class="btn-product-icon btn-wishlist btn-expandable"><span>add to
+                                                wishlist</span></a>
+                                    </div><!-- End .product-action -->
+
+                                    <div class="product-action">
+                                        <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
+                                    </div><!-- End .product-action -->
+                                </figure><!-- End .product-media -->
+
+                                <div class="product-body">
+                                    <h3 class="product-title"><a href="product">Cras ornare tristique</a></h3>
+                                    <!-- End .product-title -->
+                                    <div class="product-price">
+                                        $120.00
+                                    </div><!-- End .product-price -->
+                                </div><!-- End .product-body -->
+                            </div><!-- End .product -->
+
+                            <div class="product product-4 text-center">
+                                <figure class="product-media">
+                                    <span class="product-label label-circle label-new">New</span>
+                                    <a href="product">
+                                        <img src="/user/assets/images/products/elements/5cols/product-5.jpg"
+                                            alt="Product image" class="product-image">
+                                    </a>
+
+                                    <div class="product-action-vertical">
+                                        <a href="#" class="btn-product-icon btn-wishlist btn-expandable"><span>add to
+                                                wishlist</span></a>
+                                    </div><!-- End .product-action -->
+
+                                    <div class="product-action">
+                                        <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
+                                    </div><!-- End .product-action -->
+                                </figure><!-- End .product-media -->
+
+                                <div class="product-body">
+                                    <h3 class="product-title"><a href="product">Vivamus vestibulum</a></h3>
+                                    <!-- End .product-title -->
+                                    <div class="product-price">
+                                        $110.00
+                                    </div><!-- End .product-price -->
+                                    <div class="product-nav product-nav-dots">
+                                        <a href="#" style="background: #cc9966;"><span class="sr-only">Color
+                                                name</span></a>
+                                        <a href="#" class="active" style="background: #ebebeb;"><span
+                                                class="sr-only">Color name</span></a>
+                                    </div><!-- End .product-nav -->
+                                </div><!-- End .product-body -->
+
+                                <div class="product-footer">
+                                    <div class="ratings-container">
+                                        <div class="ratings">
+                                            <div class="ratings-val" style="width: 20%;"></div><!-- End .ratings-val -->
+                                        </div><!-- End .ratings -->
+                                        <span class="ratings-text">( 0 Reviews )</span>
+                                    </div><!-- End .rating-container -->
+                                </div><!-- End .product-footer -->
+                            </div><!-- End .product -->
+                        </div><!-- End owl-carousel -->
+
+
+                    </div><!-- End .container -->
+
+
+                </div><!-- End .page-content -->
+
+                <!-- Elements list -->
+                <!-- <div class="container mb-5">
+                <div class="row elements">
+                    <div class="col-xl-5col col-lg-4 col-md-3 col-6">
+                        <a href="elements-accordions.html" class="element-type">
+                            <div class="element">
+                                <i class="element-img"></i>
+                                <i class="element-hover-img"></i>
+                                <p>accordions</p>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-xl-5col col-lg-4 col-md-3 col-6">
+                        <a href="elements-banners.html" class="element-type">
+                            <div class="element">
+                                <i class="element-img"></i>
+                                <i class="element-hover-img"></i>
+                                <p>banners</p>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-xl-5col col-lg-4 col-md-3 col-6">
+                        <a href="elements-blog-posts.html" class="element-type">
+                            <div class="element">
+                                <i class="element-img"></i>
+                                <i class="element-hover-img"></i>
+                                <p>blog posts</p>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-xl-5col col-lg-4 col-md-3 col-6">
+                        <a href="elements-buttons.html" class="element-type">
+                            <div class="element">
+                                <i class="element-img"></i>
+                                <i class="element-hover-img"></i>
+                                <p>buttons</p>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-xl-5col col-lg-4 col-md-3 col-6">
+                        <a href="elements-cta.html" class="element-type">
+                            <div class="element">
+                                <i class="element-img"></i>
+                                <i class="element-hover-img"></i>
+                                <p>call to action</p>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-xl-5col col-lg-4 col-md-3 col-6">
+                        <a href="elements-icon-boxes.html" class="element-type">
+                            <div class="element">
+                                <i class="element-img"></i>
+                                <i class="element-hover-img"></i>
+                                <p>icon boxes</p>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-xl-5col col-lg-4 col-md-3 col-6">
+                        <a href="elements-portfolio.html" class="element-type">
+                            <div class="element">
+                                <i class="element-img"></i>
+                                <i class="element-hover-img"></i>
+                                <p>portfolio</p>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-xl-5col col-lg-4 col-md-3 col-6">
+                        <a href="elements-product-category.html" class="element-type">
+                            <div class="element">
+                                <i class="element-img"></i>
+                                <i class="element-hover-img"></i>
+                                <p>product catigories</p>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-xl-5col col-lg-4 col-md-3 col-6">
+                        <a href="elements-products.html" class="element-type">
+                            <div class="element">
+                                <i class="element-img"></i>
+                                <i class="element-hover-img"></i>
+                                <p>products</p>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-xl-5col col-lg-4 col-md-3 col-6">
+                        <a href="elements-tabs.html" class="element-type">
+                            <div class="element">
+                                <i class="element-img"></i>
+                                <i class="element-hover-img"></i>
+                                <p>tabs</p>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-xl-5col col-lg-4 col-md-3 col-6">
+                        <a href="elements-testimonials.html" class="element-type">
+                            <div class="element">
+                                <i class="element-img"></i>
+                                <i class="element-hover-img"></i>
+                                <p>testimonials</p>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-xl-5col col-lg-4 col-md-3 col-6">
+                        <a href="elements-titles.html" class="element-type">
+                            <div class="element">
+                                <i class="element-img"></i>
+                                <i class="element-hover-img"></i>
+                                <p>titles</p>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-xl-5col col-lg-4 col-md-3 col-6">
+                        <a href="elements-typography.html" class="element-type">
+                            <div class="element">
+                                <i class="element-img"></i>
+                                <i class="element-hover-img"></i>
+                                <p>typography</p>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-xl-5col col-lg-4 col-md-3 col-6">
+                        <a href="elements-video-banners.html" class="element-type">
+                            <div class="element">
+                                <i class="element-img"></i>
+                                <i class="element-hover-img"></i>
+                                <p>video</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div> -->
+                <!-- End Elements list -->
+            </main><!-- End .main -->
+
+            <footer class="footer">
+                <div class="footer-middle">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-sm-6 col-lg-3">
+                                <div class="widget widget-about">
+                                    <img src="/user/assets/images/logo.png" class="footer-logo" alt="Footer Logo"
+                                        width="105" height="25">
+                                    <p>Praesent dapibus, neque id cursus ucibus, tortor neque egestas augue, eu
+                                        vulputate magna eros eu erat. </p>
+
+                                    <div class="social-icons">
+                                        <a href="#" class="social-icon" target="_blank" title="Facebook"><i
+                                                class="icon-facebook-f"></i></a>
+                                        <a href="#" class="social-icon" target="_blank" title="Twitter"><i
+                                                class="icon-twitter"></i></a>
+                                        <a href="#" class="social-icon" target="_blank" title="Instagram"><i
+                                                class="icon-instagram"></i></a>
+                                        <a href="#" class="social-icon" target="_blank" title="Youtube"><i
+                                                class="icon-youtube"></i></a>
+                                        <a href="#" class="social-icon" target="_blank" title="Pinterest"><i
+                                                class="icon-pinterest"></i></a>
+                                    </div><!-- End .soial-icons -->
+                                </div><!-- End .widget about-widget -->
+                            </div><!-- End .col-sm-6 col-lg-3 -->
+
+                            <div class="col-sm-6 col-lg-3">
+                                <div class="widget">
+                                    <h4 class="widget-title">Useful Links</h4><!-- End .widget-title -->
+
+                                    <ul class="widget-list">
+                                        <li><a href="about.html">About Molla</a></li>
+                                        <li><a href="#">How to shop on Molla</a></li>
+                                        <li><a href="#">FAQ</a></li>
+                                        <li><a href="contact.html">Contact us</a></li>
+                                        <li><a href="login.html">Log in</a></li>
+                                    </ul><!-- End .widget-list -->
+                                </div><!-- End .widget -->
+                            </div><!-- End .col-sm-6 col-lg-3 -->
+
+                            <div class="col-sm-6 col-lg-3">
+                                <div class="widget">
+                                    <h4 class="widget-title">Customer Service</h4><!-- End .widget-title -->
+
+                                    <ul class="widget-list">
+                                        <li><a href="#">Payment Methods</a></li>
+                                        <li><a href="#">Money-back guarantee!</a></li>
+                                        <li><a href="#">Returns</a></li>
+                                        <li><a href="#">Shipping</a></li>
+                                        <li><a href="#">Terms and conditions</a></li>
+                                        <li><a href="#">Privacy Policy</a></li>
+                                    </ul><!-- End .widget-list -->
+                                </div><!-- End .widget -->
+                            </div><!-- End .col-sm-6 col-lg-3 -->
+
+                            <div class="col-sm-6 col-lg-3">
+                                <div class="widget">
+                                    <h4 class="widget-title">My Account</h4><!-- End .widget-title -->
+
+                                    <ul class="widget-list">
+                                        <li><a href="#">Sign In</a></li>
+                                        <li><a href="cart.html">View Cart</a></li>
+                                        <li><a href="#">My Wishlist</a></li>
+                                        <li><a href="#">Track My Order</a></li>
+                                        <li><a href="#">Help</a></li>
+                                    </ul><!-- End .widget-list -->
+                                </div><!-- End .widget -->
+                            </div><!-- End .col-sm-6 col-lg-3 -->
+                        </div><!-- End .row -->
+                    </div><!-- End .container -->
+                </div><!-- End .footer-middle -->
+
+                <div class="footer-bottom">
+                    <div class="container">
+                        <p class="footer-copyright">Copyright © 2019 Molla Store. All Rights Reserved.</p>
+                        <!-- End .footer-copyright -->
+                        <figure class="footer-payments">
+                            <img src="/user/assets/images/payments.png" alt="Payment methods" width="272" height="20">
+                        </figure><!-- End .footer-payments -->
+                    </div><!-- End .container -->
+                </div><!-- End .footer-bottom -->
+            </footer><!-- End .footer -->
+        </div><!-- End .page-wrapper -->
+        <button id="scroll-top" title="Back to Top"><i class="icon-arrow-up"></i></button>
+
+        <!-- Mobile Menu -->
+        <div class="mobile-menu-overlay"></div><!-- End .mobil-menu-overlay -->
+
+        <div class="mobile-menu-container">
+            <div class="mobile-menu-wrapper">
+                <span class="mobile-menu-close"><i class="icon-close"></i></span>
+
+                <form action="#" method="get" class="mobile-search">
+                    <label for="mobile-search" class="sr-only">Search</label>
+                    <input type="search" class="form-control" name="mobile-search" id="mobile-search"
+                        placeholder="Search in..." required>
+                    <button class="btn btn-primary" type="submit"><i class="icon-search"></i></button>
+                </form>
+
+
+
+                <div class="social-icons">
+                    <a href="#" class="social-icon" target="_blank" title="Facebook"><i class="icon-facebook-f"></i></a>
+                    <a href="#" class="social-icon" target="_blank" title="Twitter"><i class="icon-twitter"></i></a>
+                    <a href="#" class="social-icon" target="_blank" title="Instagram"><i class="icon-instagram"></i></a>
+                    <a href="#" class="social-icon" target="_blank" title="Youtube"><i class="icon-youtube"></i></a>
+                </div><!-- End .social-icons -->
+            </div><!-- End .mobile-menu-wrapper -->
+        </div><!-- End .mobile-menu-container -->
+
+        <!-- Sign in / Register Modal -->
+
+        <!-- Plugins JS File -->
+        <script src="assets/js/jquery.min.js"></script>
+        <script src="assets/js/bootstrap.bundle.min.js"></script>
+        <script src="assets/js/jquery.hoverIntent.min.js"></script>
+        <script src="assets/js/jquery.waypoints.min.js"></script>
+        <script src="assets/js/superfish.min.js"></script>
+        <script src="assets/js/owl.carousel.min.js"></script>
+        <script src="assets/js/bootstrap-input-spinner.js"></script>
+        <script src="assets/js/jquery.plugin.min.js"></script>
+        <script src="assets/js/jquery.magnific-popup.min.js"></script>
+        <script src="assets/js/jquery.countdown.min.js"></script>
+        <!-- Main JS File -->
+        <script src="assets/js/main.js"></script>
+        </body>
+
+
+        <!-- molla/elements-products.html  22 Nov 2019 10:05:00 GMT -->
+
+        </html>
