@@ -13,11 +13,11 @@ const productData = new mongoose.Schema({
         min: 0,
         required: true
     },
-    OfferPrice: {
-        type: Number,
-        min: 0,
-        required: true
-    },
+    // OfferPrice: {
+    //     type: Number,
+    //     min: 0,
+    //     required: true
+    // },
     Category: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Categories', // Reference to the Category model

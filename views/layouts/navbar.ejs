@@ -46,7 +46,7 @@
             <div class="header-right">
                 <div class="header-search header-search-extended header-search-visible">
                     <a href="#" class="search-toggle" role="button"><i class="icon-search"></i></a>
-                    <form action="#" method="get">
+                    <form action="/search" method="get">
                         <div class="header-search-wrapper">
                             <label for="q" class="sr-only">Search</label>
                             <input type="search" class="form-control" name="q" id="q" placeholder="Search product ..."
@@ -57,7 +57,7 @@
                     </form>
                 </div><!-- End .header-search -->
 
-                <a href="wishlist.html" class="wishlist-link">
+                <a href="wishlist" class="wishlist-link">
                     <i class="icon-heart-o"></i>
                     <span class="wishlist-count">3</span>
                 </a>
@@ -118,12 +118,32 @@
                         </div><!-- End .dropdown-cart-total -->
 
                         <div class="dropdown-cart-action">
-                            <a href="cart.html" class="btn btn-primary">View Cart</a>
-                            <a href="checkout.html" class="btn btn-outline-primary-2"><span>Checkout</span><i
+                            <a href="cart" class="btn btn-primary" id="viewCartBtn">View Cart</a>
+                            <a href="checkout" class="btn btn-outline-primary-2"><span>Checkout</span><i
                                     class="icon-long-arrow-right"></i></a>
                         </div><!-- End .dropdown-cart-total -->
                     </div><!-- End .dropdown-menu -->
                 </div><!-- End .cart-dropdown -->
+
+
+
+                <a href="/profile" class="profile-link" id="viewProfile">
+                    <i class="icon-user"></i>
+                </a>
+
+                <style>
+                    /* Add this CSS to your stylesheet or in a style tag in your HTML file */
+                    .profile-link {
+                        display: inline-block;
+                        position: relative;
+                        margin-left: 15px; /* Adjust the margin as needed to position it appropriately */
+                    }
+                    
+                    .profile-link i {
+                        font-size: 24px; /* Adjust the font size as needed */
+                    }
+
+                </style>
             </div><!-- End .header-right -->
 
             <div class="logout-container">
@@ -149,3 +169,63 @@
         </div><!-- End .container -->
     </div><!-- End .header-middle -->
 </header><!-- End .header -->
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<% if (!locals.userAuthenticated) { %>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Get the "View Cart" button
+        var viewCartBtn = document.getElementById('viewCartBtn');
+    
+        // Attach a click event listener to the button
+        viewCartBtn.addEventListener('click', function (event) {
+            // Check if the user is logged in 
+            var isLoggedIn = false;
+    
+            // If the user is not logged in, show a SweetAlert message and prevent the default action (redirecting to the cart page)
+            if (!isLoggedIn) {
+                event.preventDefault();
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Please login before viewing your cart!',
+                });
+            }
+            // Otherwise, let the default action (redirecting to the cart page) proceed
+        });
+    });
+    </script>
+     <% } %>
+
+
+
+
+
+     <% if (!locals.userAuthenticated) { %>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                // Get the "View Cart" button
+                var viewCartBtn = document.getElementById('viewProfile');
+            
+                // Attach a click event listener to the button
+                viewCartBtn.addEventListener('click', function (event) {
+                    // Check if the user is logged in 
+                    var isLoggedIn = false;
+            
+                    // If the user is not logged in, show a SweetAlert message and prevent the default action (redirecting to the cart page)
+                    if (!isLoggedIn) {
+                        event.preventDefault();
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'Please login before viewing your profile!',
+                        });
+                    }
+                    // Otherwise, let the default action (redirecting to the cart page) proceed
+                });
+            });
+            </script>
+             <% } %>

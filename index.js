@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 mongoose.connect('mongodb://127.0.0.1:27017/E-commerce');
 
 const express = require('express')
+const morgan=require('morgan')
 const app = express()
 const path = require('path')
 const crypto = require('crypto')
@@ -12,7 +13,7 @@ const flash = require('connect-flash');
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-
+// app.use(morgan('dev'))
 const port = 3000
 
 app.use(express.static(path.join(__dirname, 'public')))

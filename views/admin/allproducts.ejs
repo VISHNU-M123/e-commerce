@@ -24,6 +24,12 @@
   <link rel="shortcut icon" href="/admin/assets/images/favicon.png" />
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+
+<!-- sweet alert -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
 </head>
 
 <body>
@@ -119,6 +125,30 @@
               <i class="mdi mdi-speedometer"></i>
             </span>
             <span class="menu-title">Category</span>
+          </a>
+        </li>
+         <li class="nav-item menu-items">
+          <a class="nav-link" href="/admin/orders">
+            <span class="menu-icon">
+              <i class="mdi mdi-speedometer"></i>
+            </span>
+            <span class="menu-title">Orders</span>
+          </a>
+        </li>
+        <li class="nav-item menu-items">
+          <a class="nav-link" href="/admin/offer">
+            <span class="menu-icon">
+              <i class="mdi mdi-speedometer"></i>
+            </span>
+            <span class="menu-title">Offers</span>
+          </a>
+        </li>
+        <li class="nav-item menu-items">
+          <a class="nav-link" href="/admin/coupon">
+            <span class="menu-icon">
+              <i class="mdi mdi-speedometer"></i>
+            </span>
+            <span class="menu-title">Coupon</span>
           </a>
         </li>
         <!-- <li class="nav-item menu-items">
@@ -367,7 +397,7 @@
                           <th> Product Name </th>
                           <th> Description </th>
                           <th> Price </th>
-                          <th> Offer Price </th>
+                          <!-- <th> Offer Price </th> -->
                           <th> Category </th>
                           <th> Status </th>
                           <th> Quantity </th>
@@ -393,9 +423,9 @@
                               <td>
                                 <%= data.Price %>
                               </td>
-                              <td>
+                              <!-- <td>
                                 <%= data.OfferPrice %>
-                              </td>
+                              </td> -->
                               <td>
                                 <% if (data.Category && data.Category.Name) { %>
                                   <%= data.Category.Name %>
@@ -427,14 +457,28 @@
                                     <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
                                   </span>
                                 </a>
-                                <a href="/admin/deleteproduct?id=<%= data._id %>"
+                                <!-- <a href="/admin/deleteproduct?id=<%= data._id %>"
                                   onclick="return confirm('Are you sure you want to delete <%=data.Name%>?')"
                                   class="table-link danger">
                                   <span class="fa-stack">
                                     <i class="fa fa-square fa-stack-2x"></i>
                                     <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
                                   </span>
+                                </a> -->
+
+
+
+
+                                <!-- sweet alert -->
+                                <a href="#" class="table-link danger" onclick="confirmDelete('<%= data._id %>', '<%= data.Name %>')">
+                                  <span class="fa-stack">
+                                    <i class="fa fa-square fa-stack-2x"></i>
+                                    <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                                  </span>
                                 </a>
+                                
+
+
                               </td>
 
                               <td>
@@ -451,8 +495,15 @@
                   </div>
 
                 </div>
-                <td> <button type="submit" class="btn btn-primary  mr-2"><a href="/admin/addproduct"
-                      style="color: black;">Add Products</a></button> </td>
+                <td> 
+                  <!-- <div style="display: flex; justify-content: center; align-items: center; height:  100%;">
+                    <button type="submit" class="btn btn-primary mr-2" style="width:  30%;">
+                        <a href="/admin/addproduct" style="color: black;">Add Products</a>
+                    </button>
+                </div> -->
+                  <button type="submit" class="btn btn-primary  mr-2"><a href="/admin/addproduct"
+                      style="color: black;">Add Products</a></button> 
+                    </td>
               </div>
             </div>
           </div>
@@ -496,6 +547,37 @@
   <!-- Custom js for this page -->
   <script src="/admin/assets/js/dashboard.js"></script>
   <!-- End custom js for this page -->
+
+
+
+
+
+
+
+
+<!-- sweet alert -->
+<script>
+  function confirmDelete(productId, productName) {
+  Swal.fire({
+    // title: 'Are you sure?',
+    // text: `Are you sure you want to delete ${productName}?`,
+    html: `<span style="color: black;">Are you sure you want to delete ${productName}?</span>`,
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Yes, delete it!',
+    cancelButtonText: 'Cancel',
+    reverseButtons: true
+  }).then((result) => {
+    if (result.isConfirmed) {
+      // If confirmed, redirect to the deleteproduct route with the product ID
+      window.location.href = `/admin/deleteproduct?id=${productId}`;
+    }
+  });
+}
+
+</script>
+
+
 </body>
 
 </html>

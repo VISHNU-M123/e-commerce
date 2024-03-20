@@ -51,34 +51,56 @@ const uploadCategory = async (req, res) => {
 const category = async (req, res) => {
   try {
     const categories = await Category.find();
-    res.render('/category', { categories })
+    res.render('category', { categories })
   } catch (error) {
     console.log(error.message)
   }
 }
 
 //category status
+// const categoryStatus = async (req, res) => {
+//   try {
+//     const categoryId = req.query.categoryId; // Assuming userId is passed in the route params
+//     console.log('asdfasdf', categoryId)
+//     const category = await Category.findById(categoryId);
+
+//     if (category) {
+//       // Toggle the user status
+//       const newStatus = category.Status === 'blocked' ? 'active' : 'blocked';
+//       await category.updateOne({ _id: categoryId }, { $set: { Status: newStatus }, new: true })
+
+
+//       res.redirect('/admin/category'); // Redirect to the user list page
+//     } else {
+//       res.redirect('/admin/category').status(404).send('category not found');
+//     }
+
+//   } catch (error) {
+//     console.log(error.message)
+//   }
+// }
+
+
+
 const categoryStatus = async (req, res) => {
   try {
-    const categoryId = req.query.categoryId; // Assuming userId is passed in the route params
-    console.log('asdfasdf', categoryId)
-    const category = await Category.findById(categoryId);
+      const categoryId = req.body.categoryId || req.query.categoryId; // Retrieve category ID from the form submission or query parameters
+      const category = await Category.findById(categoryId);
 
-    if (category) {
-      // Toggle the user status
-      const newStatus = category.Status === 'blocked' ? 'active' : 'blocked';
-      await category.updateOne({ _id: categoryId }, { $set: { Status: newStatus }, new: true })
+      if (category) {
+          // Toggle the category status
+          const newStatus = category.Status === 'blocked' ? 'active' : 'blocked';
+          await Category.updateOne({ _id: categoryId }, { $set: { Status: newStatus } });
 
-
-      res.redirect('/admin/category'); // Redirect to the user list page
-    } else {
-      res.redirect('/admin/category').status(404).send('category not found');
-    }
-
+          res.redirect('/admin/category'); // Redirect to the category list page
+      } else {
+          res.redirect('/admin/category').status(404).send('Category not found');
+      }
   } catch (error) {
-    console.log(error.message)
+      console.log(error.message);
+      res.status(500).json({ message: 'Internal Server Error' });
   }
-}
+};
 
 //deleting the category
 const deletecategory = async (req, res) => {

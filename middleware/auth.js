@@ -1,4 +1,6 @@
 const User = require('../models/userModel');
+const Category = require('../models/cartModel')
+
 
 const isLogin = async (req, res, next) => {
     try {
@@ -80,12 +82,26 @@ const isBlocked = async (req, res, next) => {
 
 
 
+const categoryFilterMiddleware = async (req, res, next) => {
+    try {
+        const allCategories = await Category.find();
+        const activeCategories = allCategories.filter(category => category.Status !== 'blocked');
+        req.activeCategories = activeCategories;
+        next();
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).send("Internal Server Error");
+    }
+};
+
+
 
 module.exports = {
     isLogin,
     // notLogged,
     isLogout,
     isAuthenticated,
-    isBlocked
+    isBlocked,
+    categoryFilterMiddleware
     
 }

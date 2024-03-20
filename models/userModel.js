@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
+
 const userData = new mongoose.Schema({
 
     name: {
@@ -38,7 +40,24 @@ const userData = new mongoose.Schema({
         type: String,
         default: ''
     },
+    orders: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Order'
+    }]
 
 });
+
+
+
+// Define a method to compare passwords
+userData.methods.comparePassword = async function (candidatePassword) {
+    try {
+        return await bcrypt.compare(candidatePassword, this.password);
+    } catch (error) {
+        throw new Error(error);
+    }
+};
+
+
 
 module.exports = mongoose.model('User', userData)

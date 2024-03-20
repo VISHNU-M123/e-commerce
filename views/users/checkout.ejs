@@ -1,0 +1,1274 @@
+<%- include('../layouts/header.ejs') %>
+<%- include('../layouts/navbar.ejs') %>
+<%- include('../layouts/mobileNav.ejs') %>
+
+
+    <div class="page-wrapper">
+        <header class="header">
+            <div class="header-top">
+                <div class="container">
+                    <div class="header-left">
+                        <div class="header-dropdown">
+                           
+                            <div class="header-menu">
+                                
+                            </div><!-- End .header-menu -->
+                        </div><!-- End .header-dropdown -->
+
+                        <div class="header-dropdown">
+                           
+                            <div class="header-menu">
+                                
+                            </div><!-- End .header-menu -->
+                        </div><!-- End .header-dropdown -->
+                    </div><!-- End .header-left -->
+
+                    <div class="header-right">
+                       
+                    </div><!-- End .header-right -->
+                </div><!-- End .container -->
+            </div><!-- End .header-top -->
+
+            <div class="header-middle sticky-header">
+                <div class="container">
+                    <div class="header-left">
+                        <a href="index.html" class="logo">  
+                        </a>
+                    </div><!-- End .header-left -->
+
+                    <div class="header-right">
+                        <div class="header-search">
+                            
+                        </div><!-- End .header-search -->
+                        <div class="dropdown compare-dropdown"> 
+                        </div><!-- End .compare-dropdown -->
+
+                        <div class="dropdown cart-dropdown">
+                           
+                        </div><!-- End .cart-dropdown -->
+                    </div><!-- End .header-right -->
+                </div><!-- End .container -->
+            </div><!-- End .header-middle -->
+        </header><!-- End .header -->
+
+        <main class="main">
+        	<div class="page-header text-center" style="background-image: url('/user/assets/images/page-header-bg.jpg')">
+        		<div class="container">
+        			<h1 class="page-title">Checkout<span>Shop</span></h1>
+        		</div><!-- End .container -->
+        	</div><!-- End .page-header -->
+            <nav aria-label="breadcrumb" class="breadcrumb-nav">
+                <div class="container">
+                    <ol class="breadcrumb">
+                        <!-- <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                        <li class="breadcrumb-item"><a href="#">Shop</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Checkout</li> -->
+                    </ol>
+                </div><!-- End .container -->
+            </nav><!-- End .breadcrumb-nav -->
+
+            <div class="page-content">
+            	<div class="checkout">
+	                <div class="container">
+            			<div class="checkout-discount">
+            				<!-- <form action="#">
+        						<input type="text" class="form-control" required id="checkout-discount-input">
+            					<label for="checkout-discount-input" class="text-truncate">Have a coupon? <span>Click here to enter your code</span></label>
+            				</form> -->
+            			</div><!-- End .checkout-discount -->
+						<div class="checkout-discount">
+							<button type="button" class="btn btn-primary" id="applyCouponBtn" data-toggle="modal" data-target="#couponModal">
+								Apply Coupon
+							</button>
+						</div><!-- End .checkout-discount -->
+
+
+						<!-- coupon modal -->
+                        <div class="modal fade" id="couponModal" tabindex="-1" role="dialog" aria-labelledby="couponModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="couponModalLabel">Select a Coupon</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form id="couponForm">
+                                            <% coupons.forEach(coupon => { %>
+                                                <div class="form-check">&nbsp;
+                                                    <input class="form-check-input" type="radio" name="coupon" id="<%= coupon._id %>" value="<%= coupon.discountAmount %>" data-coupon-code="<%= coupon.couponCode %>">
+                                                    <label class="form-check-label" for="<%= coupon._id %>">&nbsp;
+                                                        <%= coupon.couponCode %> - ₹<%= coupon.discountAmount %>
+                                                    </label>
+                                                </div>
+                                            <% }); %>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-primary" id="couponActionBtn" data-dismiss="modal">Apply</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><!-- end.coupon modal -->
+
+            			<form action="#">
+		                	<div class="row">
+		                		<div class="col-lg-9">
+		                			<h2 class="checkout-title">Billing Details</h2><!-- End .checkout-title -->
+									<% if (locals.userAddresses && locals.userAddresses.address.length > 0) { %>
+										<% const address = locals.userAddresses.address[0]; %>
+										<div class="card card-dashboard" data-id="<%= address._id %>">
+											<div class="card-body">
+												<h3 class="card-title">Shipping Address</h3>
+												<!-- Display existing address details -->
+												<p>
+													Name: <%= address.name %><br>
+													Phone: <%= address.phone %><br>
+													Email: <%= address.email %><br>
+													Street Address: <%= address.streetAddress %>&nbsp;
+													City: <%= address.city %>&nbsp;
+													Pincode: <%= address.pincode %>&nbsp;
+													State: <%= address.state %><br>
+													<!-- <a href="/address/edit<%= address._id %>">Edit <i class="icon-edit"></i></a><br> -->
+													<a href="#" class="edit-address" data-toggle="collapse" data-target="#editAddressCollapse<%= address._id %>">Edit <i class="icon-edit"></i></a><br>
+													<a href="#" onclick="confirmDelete('<%= address._id %>')">Delete <ion-icon name="trash-outline"></ion-icon></a><br>
+													<!-- <a href="">Select Address</a> -->
+
+
+
+													<a href="#" class="select-address-link" data-toggle="modal" data-target="#addressModal">Select Address</a>
+												</p>
+												
+											</div><!-- End .card-body -->
+										</div><!-- End .card-dashboard -->
+
+									
+										<div class="collapse" id="editAddressCollapse<%= address._id %>">
+											<!-- Include the form fields similar to the add address form -->
+											<!-- Use the existing address data to pre-fill the fields -->
+											<form action="/address/edit<%= address._id %>" method="post" class="edit-address-form">
+												<!-- ... Form fields ... -->
+												<div class="form-row">
+													<div class="form-group col-md-6     col-lg-5">
+														<label for="inputName">Name</label>
+														<input type="text" class="form-control" id="inputName" name="name" value="<%= address.name %>" placeholder="Enter your name" required>
+													</div>
+													<div class="form-group col-md-6  col-lg-5 ">
+														<label for="inputPhone">Phone</label>
+														<input type="text" class="form-control" id="inputPhone" name="phone" value="<%= address.phone %>" placeholder="Enter your phone" required>
+													</div>
+												</div>
+												<div class="form-row">
+													<div class="form-group col-md-6     col-lg-5">
+														<label for="inputPincode">Pincode</label>
+														<input type="text" class="form-control" id="inputPincode" name="pincode" value="<%= address.pincode %>" placeholder="Enter your pincode" required>
+													</div>
+													<div class="form-group col-md-6     col-lg-5">
+														<label for="inputEmail">Email</label>
+														<input type="email" class="form-control" id="inputEmail" name="email" value="<%= address.email %>" placeholder="Enter your email" required>
+													</div>
+												</div>
+												<div class="form-group  col-lg-10">
+													<label for="inputAddress">Address (Area and Street)</label>
+													<textarea class="form-control" id="inputAddress" rows="2"  name="streetAddress" placeholder="Enter your address" required></textarea>
+												</div>
+												<div class="form-row">
+													<div class="form-group col-md-6     col-lg-5">
+														<label for="inputLocalityDistrict">City/District/Town</label>
+														<input type="text" class="form-control" id="inputLocalityDistrict" name="city" value="<%= address.city %>"  placeholder="Enter your city/district/town" required>
+													</div>
+													<div class="form-group col-md-6   col-lg-5">
+														<label for="inputState">State</label>
+														<select id="inputState" name="state" value="<%= address.state %>" class="form-control" required>
+															<option selected>Select your state</option>
+															<!-- Add options for all 28 states of India -->
+															<option>Andhra Pradesh</option>
+															<option>Arunachal Pradesh</option>
+															<option>Assam</option>
+															<option>Bihar</option>
+															<option>Chhattisgarh</option>
+															<option>Goa</option>
+															<option>Gujarat</option>
+															<option>Haryana</option>
+															<option>Himachal Pradesh</option>
+															<option>Jharkhand </option>
+															<option>Karnataka</option>
+															<option>Kerala</option>
+															<option>Madhya Pradesh</option>
+															<option>Maharashtra</option>
+															<option>Manipur</option>
+															<option>Meghalaya</option>
+															<option>Mizoram</option>
+															<option>Nagaland</option>
+															<option>Odisha</option>
+															<option>Punjab</option>
+															<option>Rajasthan</option>
+															<option>Sikkim</option>
+															<option>Tamil Nadu</option>
+															<option>Telangana</option>
+															<option>Tripura</option>
+															<option>Uttar Pradesh</option>
+															<option>Uttarakhand</option>
+															<option>West Bengal</option>
+								
+								
+															<!-- Add more options here -->
+														</select>
+													</div>
+												</div>
+												<div class="form-row">
+													<div class="form-group col-md-6   col-lg-5">
+														<label for="inputLandmark">Landmark (Optional)</label>
+														<input type="text" class="form-control" id="inputLandmark" name="landmark" placeholder="Enter your landmark">
+													</div>
+													<div class="form-group col-md-6   col-lg-5">
+														<label for="inputAlternatePhone">Alternate Phone (Optional)</label>
+														<input type="text" class="form-control" id="inputAlternatePhone" name="phone2" placeholder="Enter your alternate phone">
+													</div>
+												</div>
+												
+												<button type="submit" class="btn btn-primary">Save Changes</button>
+											</form>
+										   
+											<br><br>
+										</div>
+									<% } else { %>
+										<p>No addresses found</p>
+									<% } %>
+									
+
+
+                                <!-- Modal for selecting the address -->
+                                <div class="modal fade" id="addressModal" tabindex="-1" role="dialog" aria-labelledby="addressModalLabel" aria-hidden="true">
+                                	<div class="modal-dialog" role="document">
+                                	  <div class="modal-content">
+                                		<div class="modal-header">
+                                		  <div class="modal-body"> 
+                                			<h5 class="modal-title" id="addressModalLabel">Select Address</h5><br>
+                                			  <div class="addresses-container">
+                                				<% if (locals.userAddresses) { %>
+                                				  <% userAddresses.address.forEach(address => { %>
+                                					<div class="address-option" data-id="<%= address._id %>">
+                                					  <p>
+                                						Name: <%= address.name %><br>
+                                						Phone: <%= address.phone %><br>
+                                						Email: <%= address.email %><br>
+                                						Street Address: <%= address.streetAddress %>&nbsp;
+                                						City: <%= address.city %>&nbsp;
+                                						Pincode: <%= address.pincode %>&nbsp;
+                                						State: <%= address.state %><br>
+                                					  </p>
+                                					  <!-- <button class="btn btn-primary select-address-btn" data-id="<%= address._id %>">Select</button> -->
+                                					  <button class="btn btn-primary select-address-btn" data-id="<%= address._id %>">Select</button>
+                                					</div>
+                                					<hr> <!-- Correctly placed inside the loop but outside the <p> tag -->
+                                				  <% }) %>
+                                				<% } else { %>
+                                				  <p>No addresses found</p>
+                                				<% } %>
+                                			  </div>
+                                			</div>
+                                		</div>
+                                		<div class="modal-body">
+                                		  <!-- Addresses will be listed here -->
+                                		</div>
+                                	  </div>
+                                	</div>
+                                  </div>
+								  
+
+								  <!-- <div class="container"> -->
+									<!-- Button to toggle the add new address form -->
+									 <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#shippingAddressCollapse" aria-expanded="false" aria-controls="shippingAddressCollapse">
+										 Add a New Address
+									 </button>
+									<div class="collapse" id="shippingAddressCollapse">
+										<div class="card card-body">
+											<form action="/adaddress" method="post">
+												<div class="form-row">
+													<div class="form-group col-md-6     col-lg-5">
+														<label for="inputName">Name</label>
+														<input type="text" class="form-control" id="inputName" name="name" placeholder="Enter your name" required>
+													</div>
+													<div class="form-group col-md-6  col-lg-5 ">
+														<label for="inputPhone">Phone</label>
+														<input type="text" class="form-control" id="inputPhone" name="phone" placeholder="Enter your phone" required>
+													</div>
+												</div>
+												<div class="form-row">
+													<div class="form-group col-md-6     col-lg-5">
+														<label for="inputPincode">Pincode</label>
+														<input type="text" class="form-control" id="inputPincode" name="pincode" placeholder="Enter your pincode" required>
+													</div>
+													<div class="form-group col-md-6     col-lg-5">
+														<label for="inputEmail">Email</label>
+														<input type="email" class="form-control" id="inputEmail" name="email" placeholder="Enter your email" required>
+													</div>
+												</div>
+												<div class="form-group  col-lg-10">
+													<label for="inputAddress">Address (Area and Street)</label>
+													<textarea class="form-control" id="inputAddress" rows="2"  name="streetAddress" placeholder="Enter your address" required></textarea>
+												</div>
+												<div class="form-row">
+													<div class="form-group col-md-6     col-lg-5">
+														<label for="inputLocalityDistrict">City/District/Town</label>
+														<input type="text" class="form-control" id="inputLocalityDistrict" name="city"  placeholder="Enter your city/district/town" required>
+													</div>
+													<div class="form-group col-md-6   col-lg-5">
+														<label for="inputState">State</label>
+														<select id="inputState" name="state" class="form-control" required>
+															<option selected>Select your state</option>
+															<!-- Add options for all 28 states of India -->
+															<option>Andhra Pradesh</option>
+															<option>Arunachal Pradesh</option>
+															<option>Assam</option>
+															<option>Bihar</option>
+															<option>Chhattisgarh</option>
+															<option>Goa</option>
+															<option>Gujarat</option>
+															<option>Haryana</option>
+															<option>Himachal Pradesh</option>
+															<option>Jharkhand </option>
+															<option>Karnataka</option>
+															<option>Kerala</option>
+															<option>Madhya Pradesh</option>
+															<option>Maharashtra</option>
+															<option>Manipur</option>
+															<option>Meghalaya</option>
+															<option>Mizoram</option>
+															<option>Nagaland</option>
+															<option>Odisha</option>
+															<option>Punjab</option>
+															<option>Rajasthan</option>
+															<option>Sikkim</option>
+															<option>Tamil Nadu</option>
+															<option>Telangana</option>
+															<option>Tripura</option>
+															<option>Uttar Pradesh</option>
+															<option>Uttarakhand</option>
+															<option>West Bengal</option>
+								
+								
+															<!-- Add more options here -->
+														</select>
+													</div>
+												</div>
+												<div class="form-row">
+													<div class="form-group col-md-6   col-lg-5">
+														<label for="inputLandmark">Landmark (Optional)</label>
+														<input type="text" class="form-control" id="inputLandmark" name="landmark" placeholder="Enter your landmark">
+													</div>
+													<div class="form-group col-md-6   col-lg-5">
+														<label for="inputAlternatePhone">Alternate Phone (Optional)</label>
+														<input type="text" class="form-control" id="inputAlternatePhone" name="phone2" placeholder="Enter your alternate phone">
+													</div>
+												</div>
+												<!-- <button type="submit" class="btn btn-primary"   data-toggle="collapse" data-target="#shippingAddressCollapse">Save</button> -->
+												<button type="submit" class="btn btn-primary">Save</button>
+												<button type="reset" class="btn btn-secondary" data-toggle="collapse" data-target="#shippingAddressCollapse" aria-expanded="false" aria-controls="shippingAddressCollapse">Cancel</button>
+											</form>
+										</div>
+									</div>
+								<!--           </div> -->
+
+
+		                		</div><!-- End .col-lg-9 -->
+
+		                		<aside class="col-lg-3">
+		                			<div class="summary" id="totalSummary">
+		                				<h3 class="summary-title">Your Order</h3><!-- End .summary-title -->
+
+		                				<table class="table table-summary">
+		                					<thead>
+		                						<tr>
+		                							<th>Product</th>
+		                							<th>Total</th>
+		                						</tr>
+		                					</thead>
+
+		                					<tbody>
+												<% productNames.forEach(function(name) { %>
+		                						<tr>
+		                							<td><a href="#"><%= name %></a></td>
+		                							<td>₹<%= productPrice %></td>
+		                						</tr>											
+												<% }); %>
+		                						<tr class="summary-subtotal">
+		                							<td>Subtotal:</td>
+		                							<td>₹<%= total %></td>
+		                						</tr><!-- End .summary-subtotal -->
+		                						<tr>
+		                							<td>Shipping:</td>
+		                							<td>Free shipping</td>
+		                						</tr>
+		                						<tr class="summary-total">
+		                							<td>Total:</td>
+		                							<!-- <td>₹<%= total %></td> -->
+													<td>₹<span id="displayedTotal"><%= total %></span></td>
+		                						</tr><!-- End .summary-total -->
+		                					</tbody>
+		                				</table><!-- End .table table-summary -->
+                                       <input type="hidden" name=""  id="originalTotal" value="<%=total%>">
+		                				<div class="accordion-summary" id="accordion-payment">
+										    <!-- <div class="card">
+										        <div class="card-header" id="heading-1">
+										            <h2 class="card-title">
+										                <a role="button" data-toggle="collapse" href="#collapse-1" aria-expanded="true" aria-controls="collapse-1">
+										                    Direct bank transfer
+										                </a>
+										            </h2>
+										        </div>
+										        <div id="collapse-1" class="collapse show" aria-labelledby="heading-1" data-parent="#accordion-payment">
+										            <div class="card-body">
+										                Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order will not be shipped until the funds have cleared in our account.
+										            </div>
+										        </div>
+										    </div> -->
+
+										    <!-- <div class="card">
+										        <div class="card-header" id="heading-2">
+										            <h2 class="card-title">
+										                <a class="collapsed" role="button" data-toggle="collapse" href="#collapse-2" aria-expanded="false" aria-controls="collapse-2">
+										                    Check payments
+										                </a>
+										            </h2>
+										        </div>
+										        <div id="collapse-2" class="collapse" aria-labelledby="heading-2" data-parent="#accordion-payment">
+										            <div class="card-body">
+										                Ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio. Quisque volutpat mattis eros. Nullam malesuada erat ut turpis. 
+										            </div>
+										        </div>
+										    </div> -->
+
+
+
+											
+											<div class="card">
+												<div class="card-header" id="heading-3">
+													<h2 class="card-title">
+														<label>
+															<input type="radio"  value="cash on delivery" name="payment" data-id="cash on delivery">
+															Cash on delivery
+														</label>
+													</h2>
+												</div><!-- End .card-header -->
+												<div id="collapse-3" class="collapse" aria-labelledby="heading-3" data-parent="#accordion-payment">
+													<div class="card-body">Cash.</div><!-- End .card-body -->
+												</div><!-- End .collapse -->
+											</div><!-- End .card -->
+											
+											<div class="card">
+												<div class="card-header" id="heading-razorpay">
+													<h2 class="card-title">
+														<label>
+															<input type="radio" id="paymentMethod" name="payment" value="razorpay" data-id="RazorPay">
+															RazorPay
+														</label>
+													</h2>
+												</div><!-- End .card-header -->
+												<div id="collapse-razorpay" class="collapse" aria-labelledby="heading-razorpay" data-parent="#accordion-payment">
+													<div class="card-body">UPI and Cards accepted.</div><!-- End .card-body -->
+												</div><!-- End .collapse -->
+											</div><!-- End .card -->
+
+										    <!-- <div class="card">
+										        <div class="card-header" id="heading-4">
+										            <h2 class="card-title">
+										                <a class="collapsed" role="button" data-toggle="collapse" href="#collapse-4" aria-expanded="alse" aria-controls="collapse-4">
+										                    PayPal <small class="float-right paypal-link">What is PayPal?</small>
+										                </a>f
+										            </h2>
+										        </div>
+										        <div id="collapse-4" class="collapse" aria-labelledby="heading-4" data-parent="#accordion-payment">
+										            <div class="card-body">
+										                Nullam malesuada erat ut turpis. Suspendisse urna nibh, viverra non, semper suscipit, posuere a, pede. Donec nec justo eget felis facilisis fermentum.
+										            </div>
+										        </div>
+										    </div> -->
+
+										    <!-- <div class="card">
+										        <div class="card-header" id="heading-5">
+										            <h2 class="card-title">
+										                <a class="collapsed" role="button" data-toggle="collapse" href="#collapse-5" aria-expanded="false" aria-controls="collapse-5">
+										                    Credit Card (Stripe)
+										                    <img src="/user/assets/images/payments-summary.png" alt="payments cards">
+										                </a>
+										            </h2>
+										        </div>
+										        <div id="collapse-5" class="collapse" aria-labelledby="heading-5" data-parent="#accordion-payment">
+										            <div class="card-body">
+														 Donec nec justo eget felis facilisis fermentum.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio. Quisque volutpat mattis eros. Lorem ipsum dolor sit ame.
+										            </div>
+										        </div>
+										    </div> -->
+										</div>
+
+		                				<button type="submit" class="btn btn-outline-primary-2 btn-order btn-block" id="placeOrderBtn">
+											<span class="btn-text">Place Order</span>
+											<span class="btn-hover-text">Proceed to Checkout</span>
+										</button>
+		                			</div><!-- End .summary -->
+		                		</aside><!-- End .col-lg-3 -->
+		                	</div><!-- End .row -->
+            			</form>
+	                </div><!-- End .container -->
+                </div><!-- End .checkout -->
+            </div><!-- End .page-content -->
+        </main><!-- End .main -->
+
+        <footer class="footer">
+        	<div class="footer-middle">
+	            <div class="container">
+	            	<div class="row">
+	            		<div class="col-sm-6 col-lg-3">
+	            			<div class="widget widget-about">
+	            				<img src="/user/assets/images/logo.png" class="footer-logo" alt="Footer Logo" width="105" height="25">
+	            				<p>Praesent dapibus, neque id cursus ucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. </p>
+
+	            				<div class="social-icons">
+	            					<a href="#" class="social-icon" target="_blank" title="Facebook"><i class="icon-facebook-f"></i></a>
+	            					<a href="#" class="social-icon" target="_blank" title="Twitter"><i class="icon-twitter"></i></a>
+	            					<a href="#" class="social-icon" target="_blank" title="Instagram"><i class="icon-instagram"></i></a>
+	            					<a href="#" class="social-icon" target="_blank" title="Youtube"><i class="icon-youtube"></i></a>
+	            					<a href="#" class="social-icon" target="_blank" title="Pinterest"><i class="icon-pinterest"></i></a>
+	            				</div><!-- End .soial-icons -->
+	            			</div><!-- End .widget about-widget -->
+	            		</div><!-- End .col-sm-6 col-lg-3 -->
+
+	            		<div class="col-sm-6 col-lg-3">
+	            			<div class="widget">
+	            				<h4 class="widget-title">Useful Links</h4><!-- End .widget-title -->
+
+	            				<ul class="widget-list">
+	            					<li><a href="about.html">About Molla</a></li>
+	            					<li><a href="#">How to shop on Molla</a></li>
+	            					<li><a href="#">FAQ</a></li>
+	            					<li><a href="contact.html">Contact us</a></li>
+	            					<li><a href="login.html">Log in</a></li>
+	            				</ul><!-- End .widget-list -->
+	            			</div><!-- End .widget -->
+	            		</div><!-- End .col-sm-6 col-lg-3 -->
+
+	            		<div class="col-sm-6 col-lg-3">
+	            			<div class="widget">
+	            				<h4 class="widget-title">Customer Service</h4><!-- End .widget-title -->
+
+	            				<ul class="widget-list">
+	            					<li><a href="#">Payment Methods</a></li>
+	            					<li><a href="#">Money-back guarantee!</a></li>
+	            					<li><a href="#">Returns</a></li>
+	            					<li><a href="#">Shipping</a></li>
+	            					<li><a href="#">Terms and conditions</a></li>
+	            					<li><a href="#">Privacy Policy</a></li>
+	            				</ul><!-- End .widget-list -->
+	            			</div><!-- End .widget -->
+	            		</div><!-- End .col-sm-6 col-lg-3 -->
+
+	            		<div class="col-sm-6 col-lg-3">
+	            			<div class="widget">
+	            				<h4 class="widget-title">My Account</h4><!-- End .widget-title -->
+
+	            				<ul class="widget-list">
+	            					<li><a href="#">Sign In</a></li>
+	            					<li><a href="cart.html">View Cart</a></li>
+	            					<li><a href="#">My Wishlist</a></li>
+	            					<li><a href="#">Track My Order</a></li>
+	            					<li><a href="#">Help</a></li>
+	            				</ul><!-- End .widget-list -->
+	            			</div><!-- End .widget -->
+	            		</div><!-- End .col-sm-6 col-lg-3 -->
+	            	</div><!-- End .row -->
+	            </div><!-- End .container -->
+	        </div><!-- End .footer-middle -->
+
+	        <div class="footer-bottom">
+	        	<div class="container">
+	        		<p class="footer-copyright">Copyright © 2019 Molla Store. All Rights Reserved.</p><!-- End .footer-copyright -->
+	        		<figure class="footer-payments">
+	        			<img src="/user/assets/images/payments.png" alt="Payment methods" width="272" height="20">
+	        		</figure><!-- End .footer-payments -->
+	        	</div><!-- End .container -->
+	        </div><!-- End .footer-bottom -->
+        </footer><!-- End .footer -->
+    </div><!-- End .page-wrapper -->
+    <button id="scroll-top" title="Back to Top"><i class="icon-arrow-up"></i></button>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu-overlay"></div><!-- End .mobil-menu-overlay -->
+
+    <div class="mobile-menu-container">
+        <div class="mobile-menu-wrapper">
+            <span class="mobile-menu-close"><i class="icon-close"></i></span>
+
+            <form action="#" method="get" class="mobile-search">
+                <label for="mobile-search" class="sr-only">Search</label>
+                <input type="search" class="form-control" name="mobile-search" id="mobile-search" placeholder="Search in..." required>
+                <button class="btn btn-primary" type="submit"><i class="icon-search"></i></button>
+            </form>
+            
+           
+
+            <div class="social-icons">
+                <a href="#" class="social-icon" target="_blank" title="Facebook"><i class="icon-facebook-f"></i></a>
+                <a href="#" class="social-icon" target="_blank" title="Twitter"><i class="icon-twitter"></i></a>
+                <a href="#" class="social-icon" target="_blank" title="Instagram"><i class="icon-instagram"></i></a>
+                <a href="#" class="social-icon" target="_blank" title="Youtube"><i class="icon-youtube"></i></a>
+            </div><!-- End .social-icons -->
+        </div><!-- End .mobile-menu-wrapper -->
+    </div><!-- End .mobile-menu-container -->
+
+    <!-- Sign in / Register Modal -->
+   
+
+
+
+
+
+	
+<!-- sweet alert for deleting the address -->
+<script>
+    function confirmDelete(addressId) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: 'You are about to delete this address.',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                deleteAddress(addressId);
+            }
+        });
+    }
+
+    function deleteAddress(addressId) {
+        fetch(`/address/${addressId}`, { // Add backticks for the template literal
+            method: 'DELETE'
+        })
+        .then(res => {
+            if (res.ok) {
+                removeAddressFromPage(addressId);
+                Swal.fire('Deleted!', 'The address has been deleted.', 'success');
+            } else {
+                throw new Error('Failed to delete address');
+            }
+        })
+        .catch(error => {
+            console.error('Error deleting address:', error);
+            Swal.fire('Error!', 'Failed to delete address. Please try again later.', 'error');
+        });
+    }
+
+    function removeAddressFromPage(addressId) {
+        const addressElement = document.getElementById(`address_${addressId}`); // Fix the identifier
+        if (addressElement) {
+            addressElement.remove();
+        }
+    }
+</script>
+
+
+
+
+
+<!-- script for place order  -->
+<!-- <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const placeOrderBtn = document.getElementById('placeOrderBtn');
+
+        placeOrderBtn.addEventListener('click', function(event) {
+            event.preventDefault(); // Prevent the form from submitting normally
+
+            Swal.fire({
+                title: 'Order Placed!',
+                text: 'Your order has been placed successfully.',
+                icon: 'success',
+                confirmButtonText: 'OK'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Here you can redirect the user to a success page or perform any other action
+                }
+            });
+        });
+    });
+</script> -->
+
+
+
+
+
+
+
+
+<!-- placeorder -->
+<script>
+	document.addEventListener('DOMContentLoaded', function() {
+		const placeOrderBtn = document.getElementById('placeOrderBtn');
+	
+		placeOrderBtn.addEventListener('click', function(event) {
+			event.preventDefault();
+			const selectedPaymentElem = document.querySelector('input[name="payment"]:checked')
+			console.log(">>>>",selectedPaymentElem);
+			const selectedPayment =selectedPaymentElem.value
+		    const total= document.getElementById('originalTotal').value
+			console.log('total',total);
+      	if(selectedPayment=="cash on delivery"){
+			  
+						  fetch('/placeorder', {
+							  method: 'POST',
+							  headers:{"Content-Type":"application/json"},
+							  body: JSON.stringify({value:selectedPayment,yes:"yes"})
+						  })
+						  .then(response => response.json())
+						  .then(data => {
+							  if (data.success) {
+								  Swal.fire({
+									  title: 'Order Placed!',
+									  text: 'Your order has been placed successfully.',
+									  icon: 'success',
+									  confirmButtonText: 'OK'
+								  }).then((result) => {
+									  if (result.isConfirmed) {
+										  
+										  window.location.href = '/profile'; 
+									  }
+								  });
+							  }else if(data.response){
+			  
+							  }
+							   else {
+								  
+								  Swal.fire('Error!', data.error, 'error');
+							  }
+						  })
+						  .catch(error => {
+							  console.error('Error:', error);
+							  Swal.fire('Error!', 'Failed to place order. Please try again later.', 'error');
+						  });
+
+
+	}else{
+
+		fetch('/createOrder', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({
+				paymentMethod: selectedPayment,
+				totalAmount:total
+				
+
+			}),
+		})
+			.then(response => response.json())
+			.then(data => {
+                                if (data.success) {
+                                    const { orderId } =data
+                                    console.log(data);
+                                    var options = {
+                                        key: data.key_id,
+                                        amount: data.amount * 100,
+                                        currency: "INR",
+                                        name: "Coza store ",
+                                        description: "Test Transaction",
+                                        order_id: orderId,
+                                        handler: function (response) {
+                                          
+                                            fetch("/verifiaction", {
+												method: 'POST',
+			                                     headers: {
+			                                     	'Content-Type': 'application/json',
+			                                     },
+			                                     body: JSON.stringify({
+			                                     	razorpay_payment_id: response.razorpay_payment_id,
+                                                      razorpay_order_id: response.razorpay_order_id,
+                                                      razorpay_signature: response.razorpay_signature
+                                     
+			                                     })
+                                                                                   
+                                              
+                                               
+                                            }).then(response => response.json())
+											.then(data => {
+        
+                                                if (data.success) {
+													console.log("data",data);
+
+													fetch('/placeorder',{
+														method: 'POST',
+			                                     headers: {
+			                                     	'Content-Type': 'application/json',
+			                                     },
+												 body: JSON.stringify({value:selectedPayment,yes:"yes"})
+
+													}).then(response => response.json())
+                                                
+                                                  
+                                                        .then(data => {
+                                                            if (data.success) {
+                                                                const orderId =data.orderId
+                                                                window.location.href = '/profile'
+                                                            }
+                                                               
+
+                                                            
+                                                        }).catch(err => {
+                                                            console.log('error');
+                                                        })
+
+                                                } else {
+                                                    alert('Payment verification failed');
+                                                }
+                                            }).catch(err => {
+                                                console.error('Verification request failed', error);
+                                                alert('Payment verification failed');
+                                            })
+
+
+                                        },
+                                        prefill: {
+
+                                        },
+                                        theme: {
+                                            color: "#3399cc"
+                                        }
+                                    };
+                                    var razorpayObject = new Razorpay(options)
+                                    razorpayObject.on('payment.failed', function (response) {
+                                    alert('payment failed')
+                                   
+                                    })
+                                    razorpayObject.open()
+                                }
+
+                            }).catch(err => {
+                                console.log('error in checkout page ',err);
+                            })
+
+
+
+
+
+
+	}
+	
+		});
+	});
+	</script>
+	
+
+
+
+	<!-- script and style for address modal -->
+	
+	<!-- Include jQuery and Bootstrap JavaScript -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<!-- Custom JavaScript to show the modal -->
+	<script>
+		$(document).ready(function() {
+		  $('.select-address-link').on('click', function(e) {
+			e.preventDefault();
+			$('#addressModal').modal('show');
+		  });
+		
+		  // Event listener for address selection
+		  $('#addressModal').on('click', '.select-address-btn', function() {
+			// Remove highlight from all addresses
+			$('.address-option').removeClass('highlighted');
+			// Add highlight to the selected address
+			$(this).closest('.address-option').addClass('highlighted');
+		  });
+		});
+		</script>
+		<style>
+			.addresses-container hr {
+		  border-top:   1px solid #ddd; /* Change the color and width of the line */
+		  margin:   1px   0; /* Add some margin above and below the line */
+		  height:  1px; /* Explicitly set the height of the line */
+		}
+		
+			@media (max-width:  768px) {
+		  .addresses-container {
+			flex-direction: column;
+		  }
+		}
+			.addresses-container {
+		  display: flex; /* Make the container a flex container */
+		  flex-wrap: wrap; /* Allow items to wrap onto multiple lines if necessary */
+		  gap:  2px; /* Space between items */
+		}
+		
+		.address-option {
+		  flex:  1  1 auto; /* Allow items to grow and shrink as needed */
+		  margin:  1px; /* Add some margin around each address */
+		  padding:  2px; /* Add some padding inside each address */
+		  border-radius:  5px; /* Optional: Rounded corners */
+		}
+			
+			.modal-content {
+		  background-color: #f9f9f9; /* Light background color */
+		  border-radius:  10px; /* Rounded corners */
+		}
+		
+		.modal-header {
+		  background-color: #fcfcfc; /* Blue header */
+		  color: rgb(8, 0, 0); /* White text */
+		  border-radius:  10px  10px  0  0; /* Rounded top corners */
+		}
+		
+		.modal-title {
+		  font-size:  1.5rem; /* Larger title */
+		}
+		
+		.modal-body {
+		  padding:  2px; /* Increased padding */
+		}
+
+		.address-option {
+		  margin-bottom:  2px; /* Space between addresses */
+		}
+		
+		.select-address-btn {
+		  background-color: #f9f7f4; /* Blue button */
+		  color: rgb(15, 0, 0); /* White text */
+		  border: none; /* Remove border */
+		  padding:  10px  20px; /* Padding */
+		  border-radius:  5px; /* Rounded corners */
+		  cursor: pointer; /* Pointer cursor */
+		}
+		
+		.select-address-btn:hover {
+		  background-color:  #c96; /* Darker blue on hover */
+		}
+		</style>
+
+
+
+<!-- script for selecting the address -->
+<script>
+	
+	$(document).ready(function() {
+    // Retrieve the selected address details from local storage
+    const savedAddressDetails = localStorage.getItem('selectedAddressDetails');
+
+    if (savedAddressDetails) {
+        // Parse the saved address details
+        const addressDetails = JSON.parse(savedAddressDetails);
+
+        // Update the displayed address on the checkout page
+        updateDisplayedAddress(addressDetails);
+    }
+
+    // Listen for clicks on the "Select" button within the modal
+    $('#addressModal').on('click', '.select-address-btn', function() {
+        // Extract address details from the modal
+        const addressDetails = $(this).parent().find('p').text();
+        const address = extractAddressDetails(addressDetails);
+
+        // Update the displayed address on the checkout page
+        updateDisplayedAddress(address);
+
+        // Save the selected address details to local storage
+        localStorage.setItem('selectedAddressDetails', JSON.stringify(address));
+
+
+
+
+		// setTimeout(()=>{
+			window.location.reload()
+		// },1)
+	
+
+
+		
+        // Close the modal
+        $('#addressModal').modal('hide');
+    });
+});
+
+// Function to extract address details from the modal
+function extractAddressDetails(addressDetails) {
+    const details = addressDetails.split('\n').map(line => line.trim()).filter(line => line);
+    return {
+        name: details[0].split(': ')[1],
+        phone: details[1].split(': ')[1],
+        email: details[2].split(': ')[1],
+        streetAddress: details[3].split(': ')[1],
+        city: details[4].split(': ')[1],
+        pincode: details[5].split(': ')[1],
+        state: details[6].split(': ')[1]
+    };
+}
+
+// Function to update the displayed address
+function updateDisplayedAddress(address) {
+    $('.card-dashboard').attr('data-id', address._id);
+    // $('.card-title').text('Shipping Address');
+    $('.card-body p').html(`
+        Name: ${address.name}<br>
+        Phone: ${address.phone}<br>
+        Email: ${address.email}<br>
+        Street Address: ${address.streetAddress}&nbsp;
+        City: ${address.city}&nbsp;
+        Pincode: ${address.pincode}&nbsp;
+        State: ${address.state}<br>
+        <a href="#" class="edit-address" data-toggle="collapse" data-target="#editAddressCollapse${address._id}">Edit <i class="icon-edit"></i></a><br>
+        <a href="#" onclick="confirmDelete('${address._id}')">Delete <ion-icon name="trash-outline"></ion-icon></a><br>
+        <a href="#" class="select-address-link" data-toggle="modal" data-target="#addressModal">Select Address</a>
+    `);
+}
+
+  </script>
+
+
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Plugins JS File -->
+    <script src="/user/assets/js/jquery.min.js"></script>
+    <script src="/user/assets/js/bootstrap.bundle.min.js"></script>
+    <script src="/user/assets/js/jquery.hoverIntent.min.js"></script>
+    <script src="/user/assets/js/jquery.waypoints.min.js"></script>
+    <script src="/user/assets/js/superfish.min.js"></script>
+    <script src="/user/assets/js/owl.carousel.min.js"></script>
+    <!-- Main JS File -->
+    <script src="/user/assets/js/main.js"></script>
+
+
+
+<!-- script for editing address -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> -->
+<!-- sweet alert for editing the address  -->
+<script>
+    const submitForm = () => {
+        // Gather form data
+        const formData = {
+            name: document.getElementById('inputName').value,
+            phone: document.getElementById('inputPhone').value,
+            // ... gather other form fields
+        };
+    
+        // Get the address ID from the hidden input field
+        const addressId = document.getElementById('addressId').value;
+    
+        // Call the editAddress function with the gathered data
+        editAddress(addressId, formData);
+    };
+    
+    // Edit an existing address
+    const editAddress = async (addressId, formData) => {
+        try {
+            const response = await fetch(`/address/edit/${addressId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),
+            });
+    
+            const result = await response.json();
+            console.log("result",result)
+    
+            if (response.ok) {
+                // Show SweetAlert on successful update
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Address Updated',
+                    text: 'Your address has been updated successfully!',
+                });
+            } else {
+                // Show SweetAlert on error
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: result.message || 'Something went wrong!',
+                });
+            }
+        } catch (error) {
+            console.error(error);
+            // Show SweetAlert on internal server error
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Internal Server Error',
+            });
+        }
+    };
+    </script>
+
+
+
+
+
+
+
+
+<!-- script for razorpay -->
+
+<script>
+	function razorpay() {
+		event.preventDefault();
+		// Get the selected value from the payment dropdown
+		const paymentMethod = document.getElementById("paymentMethod-razorpay").getAttribute('data-id');
+
+		// Get the selected address value (adjust this based on your HTML structure)
+		// const selectedValue = document.getElementById("addressSelect").value;
+
+		const selectedRadio = document.querySelector('input[name="razorpay"]:checked');
+
+		// const couponCode = document.getElementById('couponCode').value;
+
+		// if (!selectedValue) {
+		//     alert('please selcect a payment method & Address');
+		//     return;
+		// }
+
+		// if (!selectedRadio) {
+		// 	Swal.fire({
+		// 		icon: 'warning',
+		// 		title: 'Please select',
+		// 		text: 'You must select an address before proceeding.',
+		// 	});
+		// 	return;
+		// }
+
+		const selectedValue = selectedRadio.value;
+
+
+	}
+
+	function verifyPayment(payment, order) {
+		$.ajax({
+			url: '/verifyPayment',
+			data: {
+				payment,
+				order
+			},
+			method: 'post',
+			success: (response) => {
+				if (response.payment) {
+
+					Swal.fire({
+						title: 'Order Placed Successfully!',
+						icon: 'success',
+						showConfirmButton: false,
+						timer: 2000 
+
+					});
+
+					setTimeout(() => {
+						window.location.href = '/ordersuccess';
+					}, 2000)
+				}
+			}
+		})
+	}
+       </script>
+
+
+
+
+
+
+
+
+
+<!-- script for coupon modal -->
+
+<!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script> -->
+<script>
+	function applyCoupon() {
+    const couponForm = document.getElementById('couponForm');
+    const selectedCoupon = couponForm.querySelector('input[name="coupon"]:checked');
+
+    if (!selectedCoupon) {
+        alert('Please select a coupon.');
+        return;
+    }
+
+    const discountAmount = parseFloat(selectedCoupon.value);
+    let originalTotal = parseFloat(document.getElementById('originalTotal').value);
+    let total = originalTotal - discountAmount;
+
+    // Update the total amount displayed on the checkout page
+    const totalElement = document.getElementById('displayedTotal');
+    totalElement.textContent = '$' + total.toFixed(2);
+
+    // Update the hidden input field with the new total amount
+    document.getElementById('originalTotal').value = total;
+
+    // Close the modal
+   
+}
+
+// Listen for the 'click' event on the 'Confirm' button
+document.getElementById('couponActionBtn').addEventListener('click', function() {
+	this.textContent = 'Apply Coupon';
+    applyCoupon();
+	$('#couponModal').modal('hide');
+});
+    // document.getElementById('applyCouponBtn').addEventListener('click', function() {
+    //     // Reset the button text to 'Apply Coupon' every time the button is clicked
+    //     this.textContent = 'Apply Coupon';
+    // });
+
+    document.getElementById('couponActionBtn').addEventListener('click', function() {
+        const selectedCoupon = document.querySelector('input[name="coupon"]:checked');
+
+        if (!selectedCoupon) {
+            alert('Please select a coupon.');
+            return;
+        }
+
+        const couponCode = selectedCoupon.getAttribute('data-coupon-code');
+
+        // If the button text is 'Apply Coupon', change it to 'Confirm Coupon'
+        if (document.getElementById('applyCouponBtn').textContent.trim() === 'Apply Coupon') {
+            // document.getElementById('applyCouponBtn').textContent = 'Confirm Coupon';
+			document.getElementById('applyCouponBtn').style.display = 'none';
+        }
+
+        copyCouponCode(couponCode);
+    });
+
+    function copyCouponCode(couponCode) {
+        // Copy the coupon code to the clipboard
+        navigator.clipboard.writeText(couponCode)
+            .then(() => {
+                // Show a success message
+                Swal.fire({
+                    icon: 'success',
+                    text: 'Coupon code added!',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+				// window.location.reload()
+            })
+            .catch(err => {
+                console.error('Failed to add: ', err);
+                alert('Failed to add coupon code.');
+            });
+    }
+
+</script>
+
+
+
+
+
+</body>
+
+<!-- molla/checkout.html  22 Nov 2019 09:55:06 GMT -->
+</html>

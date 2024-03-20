@@ -131,6 +131,30 @@
             <span class="menu-title">Category</span>
           </a>
         </li>
+        <li class="nav-item menu-items">
+          <a class="nav-link" href="/admin/orders">
+            <span class="menu-icon">
+              <i class="mdi mdi-speedometer"></i>
+            </span>
+            <span class="menu-title">Orders</span>
+          </a>
+        </li>
+        <li class="nav-item menu-items">
+          <a class="nav-link" href="/admin/offer">
+            <span class="menu-icon">
+              <i class="mdi mdi-speedometer"></i>
+            </span>
+            <span class="menu-title">Offers</span>
+          </a>
+        </li>
+        <li class="nav-item menu-items">
+          <a class="nav-link" href="/admin/coupon">
+            <span class="menu-icon">
+              <i class="mdi mdi-speedometer"></i>
+            </span>
+            <span class="menu-title">Coupon</span>
+          </a>
+        </li>
         <!-- <li class="nav-item menu-items">
             <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
               <span class="menu-icon">
@@ -596,6 +620,7 @@
                     <div class="col-4 col-sm-12 col-xl-4 text-center text-xl-right">
                       <i class="icon-lg mdi mdi-codepen text-primary ml-auto"></i>
                     </div>
+                    <button data-report-type="revenue" type="button" class="btn btn-outline-success btn-fw btn-report">Revenue report</button>
                   </div>
                 </div>
               </div>
@@ -615,6 +640,7 @@
                     <div class="col-4 col-sm-12 col-xl-4 text-center text-xl-right">
                       <i class="icon-lg mdi mdi-wallet-travel text-danger ml-auto"></i>
                     </div>
+                    <button data-report-type="sales" type="button" class="btn btn-outline-success btn-fw btn-report">Sales report</button>
                   </div>
                 </div>
               </div>
@@ -635,10 +661,80 @@
                       <i class="icon-lg mdi mdi-monitor text-success ml-auto"></i>
                     </div>
                   </div>
+                  <button data-report-type="purchase" type="button" class="btn btn-outline-success btn-fw btn-report">Purchase report</button>
                 </div>
               </div>
             </div>
           </div>
+          
+          <!-- charts -->
+          <!-- <div class="content-wrapper">
+            <div class="page-header">
+              <h3 class="page-title"> Chart-js </h3>
+              <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item"><a href="#">Charts</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">Chart-js</li>
+                </ol>
+              </nav>
+            </div>
+            <div class="row">
+              <div class="col-lg-6 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">Line chart</h4>
+                    <canvas id="lineChart" style="height:250px"></canvas>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-6 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">Bar chart</h4>
+                    <canvas id="barChart" style="height:230px"></canvas>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-6 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">Area chart</h4>
+                    <canvas id="areaChart" style="height:250px"></canvas>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-6 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">Doughnut chart</h4>
+                    <canvas id="doughnutChart" style="height:250px"></canvas>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-6 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">Pie chart</h4>
+                    <canvas id="pieChart" style="height:250px"></canvas>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-6 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">Scatter chart</h4>
+                    <canvas id="scatterChart" style="height:250px"></canvas>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div> -->
+
+          <!-- Order Status -->
           <div class="row ">
             <div class="col-12 grid-margin">
               <div class="card">
@@ -778,7 +874,11 @@
               </div>
             </div>
           </div>
+
+
           <div class="row">
+
+            <!-- Messages -->
             <div class="col-md-6 col-xl-4 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
@@ -847,6 +947,9 @@
                 </div>
               </div>
             </div>
+
+
+            <!-- Portfolio Slide -->
             <div class="col-md-6 col-xl-4 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
@@ -889,6 +992,9 @@
                 </div>
               </div>
             </div>
+
+
+            <!-- To do list -->
             <div class="col-md-12 col-xl-4 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
@@ -1051,7 +1157,37 @@
   <!-- endinject -->
   <!-- Custom js for this page -->
   <script src="/admin/assets/js/dashboard.js"></script>
+  <script src="/admin/assets/js/chart.js"></script>
   <!-- End custom js for this page -->
+
+
+
+
+
+
+
+  <!-- script for reports  -->
+<script>
+    // Wait for the DOM to be ready
+    document.addEventListener('DOMContentLoaded', function () {
+        // Get all buttons by their class
+        const reportButtons = document.querySelectorAll('.btn-report');
+
+        // Add a click event listener to each button
+        reportButtons.forEach(function (button) {
+            button.addEventListener('click', function () {
+                // Get the report type from the button's data attribute
+                const reportType = button.dataset.reportType;
+
+                // Redirect to the corresponding report page based on the report type
+                window.location.href = `/admin/${reportType}report`; // Update the URL based on your routes
+            });
+        });
+    });
+</script>
+
+
+
 </body>
 
 </html>

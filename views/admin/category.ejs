@@ -120,6 +120,30 @@
             <span class="menu-title">Category</span>
           </a>
         </li>
+        <li class="nav-item menu-items">
+          <a class="nav-link" href="/admin/orders">
+            <span class="menu-icon">
+              <i class="mdi mdi-speedometer"></i>
+            </span>
+            <span class="menu-title">Orders</span>
+          </a>
+        </li>
+        <li class="nav-item menu-items">
+          <a class="nav-link" href="/admin/offer">
+            <span class="menu-icon">
+              <i class="mdi mdi-speedometer"></i>
+            </span>
+            <span class="menu-title">Offers</span>
+          </a>
+        </li>
+        <li class="nav-item menu-items">
+          <a class="nav-link" href="/admin/coupon">
+            <span class="menu-icon">
+              <i class="mdi mdi-speedometer"></i>
+            </span>
+            <span class="menu-title">Coupon</span>
+          </a>
+        </li>
         <!-- <li class="nav-item menu-items">
             <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
               <span class="menu-icon">
@@ -428,14 +452,24 @@
                                 </style>
 
 
-                                <form id="statusForm" action="/admin/toggle-status/<%= data._id %>" method="get">
+                                <!-- <form id="statusForm" action="/admin/toggle-status/<%= data._id %>" method="get">
                                   <select name="status" class="custom-select" onchange="updateFormAction(this)">
                                     <option value="active" <%=data.Status==='active' ? 'selected' : '' %>>Active
                                     </option>
                                     <option value="blocked" <%=data.Status==='blocked' ? 'selected' : '' %>>Blocked
                                     </option>
                                   </select>
-                                </form>
+                                </form> -->
+
+
+                                <form id="statusForm" action="/admin/categorystatus" method="post" onsubmit="updateStatus(this); return false;">
+                                  <input type="hidden" name="categoryId" value="<%= data._id %>">
+                                  <select name="status" class="custom-select" onchange="this.form.submit()">
+                                      <option value="active" <%= data.Status === 'active' ? 'selected' : '' %>>Active</option>
+                                      <option value="blocked" <%= data.Status === 'blocked' ? 'selected' : '' %>>Blocked</option>
+                                  </select>
+                               </form>
+
 
                                 <script>
 
@@ -609,5 +643,17 @@
   <script src="/admin/assets/js/dashboard.js"></script>
   <!-- End custom js for this page -->
 </body>
+
+
+
+
+
+
+<!-- script for status -->
+<script>
+  function updateStatus(form) {
+      form.submit();
+  }
+</script>
 
 </html>

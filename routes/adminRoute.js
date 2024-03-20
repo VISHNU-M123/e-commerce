@@ -47,7 +47,10 @@ admin_route.get('/allproducts', adminAuth.isLogin, adminController.allproducts)
 
 admin_route.get('/category', adminAuth.isLogin, adminController.category)
 
-
+// admin_route.get('/order', adminAuth.isLogin, adminController.order)
+admin_route.get('/orders', adminAuth.isLogin, adminController.order);
+admin_route.post('/update-order-status',  adminController.orderstatus);
+admin_route.get('/update-order-status',  adminController.getorderstatus);
 // admin_route.get('*',function(req,res){
 //     res.redirect('/admin')
 // })
@@ -90,7 +93,12 @@ admin_route.get('/category', adminAuth.isLogin, categoryController.category)
 admin_route.get('/addcategory', adminAuth.isLogin, categoryController.addCategory)
 admin_route.post('/addcategory', adminAuth.isLogin, categoryController.uploadCategory);
 
-admin_route.get('/categorystatus', adminAuth.isLogin, categoryController.categoryStatus)
+// admin_route.post('/categorystatus', adminAuth.isLogin, categoryController.categoryStatus)
+admin_route.route('/categorystatus')
+    .get(adminAuth.isLogin, categoryController.categoryStatus)
+    .post(adminAuth.isLogin, categoryController.categoryStatus);
+
+
 
 
 admin_route.get('/toggle-status/:userId', adminAuth.isLogin, adminController.toggleUserStatus);
@@ -112,6 +120,50 @@ admin_route.post('/editcategory', adminAuth.isLogin, categoryController.updateca
 admin_route.get('/deletecategory', adminAuth.isLogin, categoryController.deletecategory)
 
 admin_route.get('/categorystatus', adminAuth.isLogin, categoryController.categoryStatus)
+
+
+
+
+// sales report
+
+admin_route.get('/salesreport',adminAuth.isLogin,adminController.salesReport)
+admin_route.post('/salesreport',adminController.salesReport)
+// Add this route in your express routes
+//admin_route.post('/salesreport/download', adminController.salesReport);
+admin_route.post('/salesreport/download',adminController.downloadSalesReport);
+
+
+
+// offers
+const offerController = require('../controllers/offerController')
+admin_route.get('/offer',offerController.offer)
+
+admin_route.get('/addoffer', offerController.addOffer)
+admin_route.post('/addoffer', offerController.uploadOffer);
+
+
+//edit offers
+admin_route.get('/editoffer',offerController.editOffer)
+admin_route.post('/editoffer/:id',offerController.updateOffer)
+
+
+
+
+
+//coupons
+const couponController = require('../controllers/couponController')
+admin_route.get('/coupon',couponController.getCoupons)
+
+admin_route.get('/addcoupon',couponController.addCoupon)
+// admin_route.post('/addcoupon',couponController.uploadCoupon)
+admin_route.post('/generatecoupon', couponController.generateCoupon);
+
+admin_route.get('/editcoupon',couponController.editCoupon)
+admin_route.post('/editcoupon/:id',couponController.updateCoupon)
+
+admin_route.delete('/admin/coupon/:id', couponController.deleteCoupon);
+
+
 
 
 module.exports = admin_route

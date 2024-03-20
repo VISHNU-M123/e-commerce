@@ -1,5 +1,6 @@
 <%-include('../layouts/header.ejs')%>
     <%-include('../layouts/navbar.ejs')%>
+    <%-include('../layouts/mobileNav.ejs') %>
 
 
         <style>
@@ -327,6 +328,52 @@
     })
 </script>
 
+
+
+
+
+<!-- sweet alert  for successful registration  -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const verifyOtpButton = document.getElementById('verifyOtpButton');
+
+        if (verifyOtpButton) {
+            verifyOtpButton.addEventListener('click', async function () {
+                const validOtp = true; // Replace this with your actual OTP validation logic
+                const email = "<%= email %>"; // Replace with your email variable
+
+                if (validOtp) {
+                    // Show SweetAlert for valid OTP and user verification
+                    const isVerified = true; // Replace this with your actual verification status
+                    if (isVerified) {
+                        await Swal.fire({
+                            icon: 'success',
+                            title: 'OTP Verified',
+                            text: 'Your OTP has been successfully verified. You can now login!',
+                            showConfirmButton: true,
+                        });
+
+                        // Redirect to the login page or perform other actions
+                        window.location.href = '/login';
+                    }
+                    // If not verified, you can choose to handle it differently or do nothing
+                } else {
+                    // Show SweetAlert for invalid OTP
+                    await Swal.fire({
+                        icon: 'error',
+                        title: 'Invalid OTP',
+                        text: 'The entered OTP is incorrect. Please try again.',
+                        showConfirmButton: true,
+                        timer: 2000,
+                    });
+
+                    // Redirect to the OTP page or perform other actions
+                    window.location.href = `/otp?email=${email}`;
+                }
+            });
+        }
+    });
+</script>
 
         <%-include('../layouts/footerNav.ejs')%>
             <%-include('../layouts/footer.ejs')%>

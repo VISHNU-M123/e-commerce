@@ -20,6 +20,7 @@
 
 <%-include('../layouts/header.ejs')%>
    <%- include('../layouts/navbar.ejs') %>
+   <%- include('../layouts/mobileNav.ejs') %>
 
         <body>
             <div class="page-wrapper">
@@ -134,7 +135,7 @@
 
                                                     <span class="cart-product-info">
                                                         <span class="cart-product-qty">1</span>
-                                                        x $84.00
+                                                        x ₹84.00
                                                     </span>
                                                 </div><!-- End .product-cart-details -->
 
@@ -156,7 +157,7 @@
 
                                                     <span class="cart-product-info">
                                                         <span class="cart-product-qty">1</span>
-                                                        x $76.00
+                                                        x ₹76.00
                                                     </span>
                                                 </div><!-- End .product-cart-details -->
 
@@ -174,7 +175,7 @@
                                         <div class="dropdown-cart-total">
                                             <span>Total</span>
 
-                                            <span class="cart-total-price">$160.00</span>
+                                            <span class="cart-total-price">₹160.00</span>
                                         </div><!-- End .dropdown-cart-total -->
 
                                         <div class="dropdown-cart-action">
@@ -264,7 +265,7 @@
                                             </div><!-- End .rating-container -->
 
                                             <div class="product-price">
-                                                $<%= product.Price %>
+                                                ₹<%= product.Price %>
                                             </div><!-- End .product-price -->
 
                                             <div class="product-content">
@@ -309,15 +310,15 @@
                                                 <label for="qty">Qty:</label>
                                                 <div class="product-details-quantity">
                                                     <input type="number" id="qty" class="form-control" value="1" min="1"
-                                                        max="10" step="1" data-decimals="0" required>
+                                                        max="<%= product.Quantity %>" step="1" data-decimals="0" required>
                                                 </div><!-- End .product-details-quantity -->
                                             </div><!-- End .details-filter-row -->
 
                                             <div class="product-details-action">
-                                                <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
+                                                <a href="/cart/<%= product._id %>" class="btn-product btn-cart"><span>add to cart</span></a>
 
                                                 <div class="details-action-wrapper">
-                                                    <a href="#" class="btn-product btn-wishlist"
+                                                    <a href="/wishlist/<%= product._id %>" class="btn-product btn-wishlist"
                                                         title="Wishlist"><span>Add to Wishlist</span></a>
                                                     <!-- <a href="#" class="btn-product btn-compare " 
                                                         title="Compare"><span>Add to Compare</span></a> -->
@@ -570,7 +571,7 @@
                                     <h3 class="product-title"><a href="product.html"><%= relatedProduct[i].Name %></a></h3><!-- End .product-title -->
                                     
                                     <div class="product-price">
-                                        $ <%= relatedProduct[i].OfferPrice %>
+                                        ₹ <%= relatedProduct[i].OfferPrice %>
                                      </div><!-- End .product-price -->
                                      <!-- <div class="product-offerprice">
                                         $ <%= relatedProduct[i].Price %>
@@ -691,11 +692,11 @@
 
                         <div class="col-6 justify-content-end">
                             <div class="product-price">
-                                $ <%= product.Price %>
+                                ₹ <%= product.Price %>
                             </div><!-- End .product-price -->
                             <div class="product-details-quantity">
                                 <input type="number" id="sticky-cart-qty" class="form-control" value="1" min="1"
-                                    max="10" step="1" data-decimals="0" required>
+                                    max="<%= product.quantity %>" step="1" data-decimals="0" required>
                             </div><!-- End .product-details-quantity -->
 
                             <div class="product-details-action">
@@ -741,130 +742,7 @@
             </div><!-- End .mobile-menu-container -->
 
             <!-- Sign in / Register Modal -->
-            <div class="modal fade" id="signin-modal" tabindex="-1" role="dialog" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered" role="document">
-                    <div class="modal-content">
-                        <div class="modal-body">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true"><i class="icon-close"></i></span>
-                            </button>
-
-                            <div class="form-box">
-                                <div class="form-tab">
-                                    <ul class="nav nav-pills nav-fill" role="tablist">
-                                        <li class="nav-item">
-                                            <a class="nav-link active" id="signin-tab" data-toggle="tab" href="#signin"
-                                                role="tab" aria-controls="signin" aria-selected="true">Sign In</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" id="register-tab" data-toggle="tab" href="#register"
-                                                role="tab" aria-controls="register" aria-selected="false">Register</a>
-                                        </li>
-                                    </ul>
-                                    <div class="tab-content" id="tab-content-5">
-                                        <div class="tab-pane fade show active" id="signin" role="tabpanel"
-                                            aria-labelledby="signin-tab">
-                                            <form action="#">
-                                                <div class="form-group">
-                                                    <label for="singin-email">Username or email address *</label>
-                                                    <input type="text" class="form-control" id="singin-email"
-                                                        name="singin-email" required>
-                                                </div><!-- End .form-group -->
-
-                                                <div class="form-group">
-                                                    <label for="singin-password">Password *</label>
-                                                    <input type="password" class="form-control" id="singin-password"
-                                                        name="singin-password" required>
-                                                </div><!-- End .form-group -->
-
-                                                <div class="form-footer">
-                                                    <button type="submit" class="btn btn-outline-primary-2">
-                                                        <span>LOG IN</span>
-                                                        <i class="icon-long-arrow-right"></i>
-                                                    </button>
-
-                                                    <div class="custom-control custom-checkbox">
-                                                        <input type="checkbox" class="custom-control-input"
-                                                            id="signin-remember">
-                                                        <label class="custom-control-label"
-                                                            for="signin-remember">Remember Me</label>
-                                                    </div><!-- End .custom-checkbox -->
-
-                                                    <a href="#" class="forgot-link">Forgot Your Password?</a>
-                                                </div><!-- End .form-footer -->
-                                            </form>
-                                            <div class="form-choice">
-                                                <p class="text-center">or sign in with</p>
-                                                <div class="row">
-                                                    <div class="col-sm-6">
-                                                        <a href="#" class="btn btn-login btn-g">
-                                                            <i class="icon-google"></i>
-                                                            Login With Google
-                                                        </a>
-                                                    </div><!-- End .col-6 -->
-                                                    <div class="col-sm-6">
-                                                        <a href="#" class="btn btn-login btn-f">
-                                                            <i class="icon-facebook-f"></i>
-                                                            Login With Facebook
-                                                        </a>
-                                                    </div><!-- End .col-6 -->
-                                                </div><!-- End .row -->
-                                            </div><!-- End .form-choice -->
-                                        </div><!-- .End .tab-pane -->
-                                        <div class="tab-pane fade" id="register" role="tabpanel"
-                                            aria-labelledby="register-tab">
-                                            <form action="#">
-                                                <div class="form-group">
-                                                    <label for="register-email">Your email address *</label>
-                                                    <input type="email" class="form-control" id="register-email"
-                                                        name="register-email" required>
-                                                </div><!-- End .form-group -->
-
-                                                <div class="form-group">
-                                                    <label for="register-password">Password *</label>
-                                                    <input type="password" class="form-control" id="register-password"
-                                                        name="register-password" required>
-                                                </div><!-- End .form-group -->
-
-                                                <div class="form-footer">
-                                                    <button type="submit" class="btn btn-outline-primary-2">
-                                                        <span>SIGN UP</span>
-                                                        <i class="icon-long-arrow-right"></i>
-                                                    </button>
-
-                                                    <div class="custom-control custom-checkbox">
-                                                        <input type="checkbox" class="custom-control-input"
-                                                            id="register-policy" required>
-                                                        <label class="custom-control-label" for="register-policy">I
-                                                            agree to the <a href="#">privacy policy</a> *</label>
-                                                    </div><!-- End .custom-checkbox -->
-                                                </div><!-- End .form-footer -->
-                                            </form>
-                                            <div class="form-choice">
-                                                <p class="text-center">or sign in with</p>
-                                                <div class="row">
-                                                    <div class="col-sm-6">
-                                                        <a href="#" class="btn btn-login btn-g">
-                                                            <i class="icon-google"></i>
-                                                            Login With Google
-                                                        </a>
-                                                    </div><!-- End .col-6 -->
-                                                    <div class="col-sm-6">
-                                                        <a href="#" class="btn btn-login  btn-f">
-                                                            <i class="icon-facebook-f"></i>
-                                                            Login With Facebook
-                                                        </a>
-                                                    </div><!-- End .col-6 -->
-                                                </div><!-- End .row -->
-                                            </div><!-- End .form-choice -->
-                                        </div><!-- .End .tab-pane -->
-                                    </div><!-- End .tab-content -->
-                                </div><!-- End .form-tab -->
-                            </div><!-- End .form-box -->
-                        </div><!-- End .modal-body -->
-                    </div><!-- End .modal-content -->
-                </div><!-- End .modal-dialog -->
-            </div><!-- End .modal -->
+           
 
             <!-- Plugins JS File -->
             <script src="user/assets/js/jquery.min.js"></script>
@@ -879,6 +757,65 @@
             <script src="user/assets/js/jquery.magnific-popup.min.js"></script>
             <!-- Main JS File -->
             <script src="user/assets/js/main.js"></script>
+        
+
+
+
+
+
+
+
+
+
+
+
+
+            <!-- sweet alert for adding the same product in the wishlist  -->
+            
+            <script>
+                document.addEventListener("DOMContentLoaded", function () {
+                    const addToWishlistButton = document.querySelector(".btn-wishlist");
+            
+                    addToWishlistButton.addEventListener("click", async function (event) {
+                        event.preventDefault();
+            
+                        const productId = "<%= product._id %>"; // Replace this with the actual product ID
+            
+                        try {
+                            const response = await fetch(`/wishlist/${productId}`, {
+                                method: "get", // Assuming you are using POST method for adding to wishlist
+                                headers: {
+                                    "Content-Type": "application/json",
+                                },
+                            });
+            
+                            const data = await response.json();
+            
+                            if (response.ok) {
+                                // Product added to wishlist successfully
+                                showAlert("success", "Product added to wishlist successfully");
+                            } else {
+                                // Product already in the wishlist or other error
+                                showAlert("error", data.message || "Error adding product to the wishlist");
+                            }
+                        } catch (error) {
+                            console.error("Fetch Error:", error);
+                        }
+                    });
+            
+                    function showAlert(icon, text) {
+                        Swal.fire({
+                            icon: icon,
+                            title: text,
+                            showConfirmButton: false,
+                            timer: 1500, // Adjust the time the alert is displayed
+                        });
+                    }
+                });
+            </script>
+
+
+
         </body>
 
 

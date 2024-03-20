@@ -34,14 +34,14 @@ const uploadProduct = async (req, res) => {
       // Extract the uploaded images
       const images = req.files.map(file => file.filename);
 
-      const { Name, Description, Price, OfferPrice, Category, Status, Quantity, CroppedImageData } = req.body;
+      const { Name, Description, Price, Category, Status, Quantity, CroppedImageData } = req.body;
       const croppedImageData = JSON.parse(req.body.croppedImageData || '{}');
 
       const product = new Product({
               Name,
               Description,
               Price,
-              OfferPrice,
+              // OfferPrice,
               Category,
               Status,
               Quantity,
@@ -148,7 +148,7 @@ const updateproducts = async (req, res) => {
     existingProduct.Name = req.body.Name;
     existingProduct.Description = req.body.Description;
     existingProduct.Price = req.body.Price;
-    existingProduct.OfferPrice = req.body.OfferPrice;
+    // existingProduct.OfferPrice = req.body.OfferPrice;
     //existingProduct.Category = Cname;
     existingProduct.Category.Name = req.body.Category;
     await existingProduct.Category.save();
